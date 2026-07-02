@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1B2A4A">
+<title>每日財經速報 ｜ 誠毅傳承</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="財經自學站">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@600;700;900&family=Playfair+Display:ital,wght@0,600;0,800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1B2A4A; --navy-l:#2E4A7A; --gold:#C9A84C; --gold-d:#A07830;
+    --cream:#FAF6EE; --gray:#E8E0D0; --ink:#333; --muted:#8a8577; --white:#fff; --orange:#D4711E;
+    --up:#B0413A; --down:#4E7355; --flat:#8a8577;   /* 台股慣例：紅漲綠跌（採沉穩色，非鮮豔） */
+    --serif:"Noto Serif TC",serif; --sans:"Noto Sans TC",sans-serif; --disp:"Playfair Display",serif;
+    --shadow:0 8px 26px rgba(27,42,74,.13); --shadow-sm:0 3px 12px rgba(27,42,74,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.7;-webkit-font-smoothing:antialiased}
+  ::selection{background:var(--gold);color:var(--navy)}
+  a{color:inherit;text-decoration:none}
+
+  header.top{position:sticky;top:0;z-index:50;background:var(--navy);color:#fff;display:flex;align-items:center;
+    gap:10px;padding:11px 14px;border-bottom:2px solid var(--gold);padding-top:calc(11px + env(safe-area-inset-top))}
+  header.top a.home{color:var(--gold);font-size:13px;flex:none}
+  header.top .wm{font-family:var(--serif);font-weight:700;font-size:14px;flex:1;text-align:center}
+  header.top .wm b{color:var(--orange)}
+  header.top .editbtn{border:1px solid rgba(201,168,76,.5);background:rgba(255,255,255,.06);color:var(--gold);
+    border-radius:8px;padding:6px 12px;font-size:12.5px;cursor:pointer;flex:none;font-family:var(--sans)}
+
+  /* masthead */
+  .mast{background:linear-gradient(135deg,var(--navy),var(--navy-l));color:#fff;padding:24px 18px 20px;position:relative;overflow:hidden}
+  .mast::after{content:"";position:absolute;right:-50px;top:-50px;width:180px;height:180px;border:1px solid rgba(201,168,76,.2);border-radius:50%}
+  .mast .wrap{max-width:640px;margin:0 auto;position:relative;z-index:1}
+  .mast .eyebrow{font-family:var(--disp);font-style:italic;color:var(--gold);letter-spacing:2px;font-size:12px}
+  .mast h1{font-family:var(--serif);font-weight:900;font-size:30px;letter-spacing:2px;margin-top:2px}
+  .mast .date{display:flex;align-items:center;gap:10px;margin-top:8px;color:var(--cream);font-size:14px}
+  .mast .date .d{font-family:var(--disp);font-size:18px;color:var(--gold);font-weight:800;letter-spacing:1px}
+  .mast .rule{height:2px;background:var(--gold);width:56px;margin-top:12px}
+
+  main{max-width:640px;margin:0 auto;padding:16px 14px 60px}
+
+  .sect{margin-top:22px}
+  .sect .lbl{font-family:var(--serif);font-weight:700;color:var(--navy);font-size:17px;display:flex;align-items:center;gap:8px;margin-bottom:12px}
+  .sect .lbl::before{content:"";width:4px;height:17px;background:var(--gold);border-radius:2px}
+
+  /* KPI strip */
+  .kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .kpi{background:#fff;border:1px solid var(--gray);border-radius:12px;padding:13px 14px;box-shadow:var(--shadow-sm)}
+  .kpi .kn{font-size:12.5px;color:var(--muted);font-weight:700}
+  .kpi .kv{font-family:var(--disp);font-size:24px;font-weight:800;color:var(--navy);margin-top:2px;display:flex;align-items:baseline;gap:7px}
+  .kpi .arw{font-size:15px}
+  .kpi .kc{font-size:12.5px;font-weight:700}
+  .kpi .kt{font-size:11.5px;color:var(--muted);margin-top:3px}
+  .up{color:var(--up)} .down{color:var(--down)} .flat{color:var(--flat)}
+
+  /* focus cards */
+  .focus{background:#fff;border:1px solid var(--gray);border-radius:13px;padding:15px 16px;margin-bottom:11px;box-shadow:var(--shadow-sm)}
+  .focus .fh{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:7px}
+  .focus .ft{font-family:var(--serif);font-weight:700;color:var(--navy);font-size:16px;flex:1;min-width:140px;line-height:1.35}
+  .tag{font-size:12px;font-weight:700;border-radius:999px;padding:3px 11px;flex:none}
+  .tag.偏多{background:rgba(176,65,58,.12);color:var(--up)}
+  .tag.偏空{background:rgba(78,115,85,.14);color:var(--down)}
+  .tag.中性{background:rgba(201,168,76,.16);color:var(--gold-d)}
+  .mchip{font-size:11px;color:var(--navy);background:var(--cream);border:1px solid var(--gray);border-radius:999px;padding:2px 9px;flex:none}
+  .focus .fk{font-size:14px;color:var(--ink);line-height:1.65}
+
+  /* client line */
+  .cline{background:linear-gradient(135deg,var(--navy),var(--navy-l));color:#fff;border-radius:14px;padding:20px 20px;position:relative;overflow:hidden;margin-top:6px}
+  .cline::before{content:"\201C";position:absolute;left:12px;top:2px;font-family:var(--serif);font-size:60px;color:rgba(201,168,76,.35)}
+  .cline .cl-lbl{font-size:11.5px;color:var(--gold);letter-spacing:1px;font-weight:700;margin-bottom:6px}
+  .cline .cl-txt{font-family:var(--serif);font-size:18px;line-height:1.7;color:#fff;padding-left:6px}
+  .cline .cl-go{display:inline-flex;align-items:center;gap:6px;margin-top:12px;background:var(--gold);color:var(--navy);
+    border-radius:8px;padding:9px 15px;font-size:13px;font-weight:700}
+
+  /* quick links */
+  .qlinks{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
+  .qlink{background:#fff;border:1px solid var(--gray);border-radius:12px;padding:14px;text-align:center;box-shadow:var(--shadow-sm);transition:.15s}
+  .qlink:hover{border-color:var(--gold);transform:translateY(-2px)}
+  .qlink .qi{font-size:22px}
+  .qlink b{display:block;font-size:13.5px;color:var(--navy);margin-top:5px;font-family:var(--serif)}
+  .qlink small{color:var(--muted);font-size:11.5px}
+
+  .datanote{margin-top:18px;font-size:11.5px;color:var(--muted);line-height:1.7;background:#fff;border:1px solid var(--gray);border-radius:10px;padding:12px 14px}
+  .datanote b{color:var(--gold-d)}
+
+  footer{background:var(--navy);color:var(--gray);text-align:center;padding:22px;font-size:12px;border-top:2px solid var(--gold);margin-top:28px}
+  footer .bd{font-family:var(--serif);color:#fff;font-size:14px;margin-bottom:4px}
+  footer .bd b{color:var(--orange)}
+  footer .motto{color:var(--gold);font-size:11px;letter-spacing:1px;margin-top:6px}
+
+  /* ── editor drawer ── */
+  .editwrap{display:none;position:fixed;inset:0;z-index:100;background:rgba(10,16,30,.5)}
+  .editwrap.show{display:block}
+  .editor{position:absolute;right:0;top:0;bottom:0;width:min(480px,92vw);background:var(--cream);overflow-y:auto;
+    box-shadow:-8px 0 30px rgba(0,0,0,.3);padding:18px 16px 40px}
+  .editor h2{font-family:var(--serif);color:var(--navy);font-size:20px;display:flex;align-items:center;justify-content:space-between}
+  .editor h2 .x{background:none;border:none;font-size:24px;color:var(--muted);cursor:pointer}
+  .editor .eh{font-size:13px;font-weight:700;color:var(--gold-d);margin:16px 0 8px;border-bottom:1px solid var(--gray);padding-bottom:5px}
+  .fld{margin-bottom:9px}
+  .fld label{font-size:11.5px;color:var(--muted);font-weight:700;display:block;margin-bottom:3px}
+  .editor input,.editor textarea,.editor select{width:100%;border:1px solid var(--gray);border-radius:8px;padding:9px 11px;
+    font-family:var(--sans);font-size:13.5px;background:#fff;color:var(--ink);outline:none}
+  .editor input:focus,.editor textarea:focus{border-color:var(--gold)}
+  .editrow{background:#fff;border:1px solid var(--gray);border-radius:10px;padding:11px;margin-bottom:9px;position:relative}
+  .editrow .rm{position:absolute;right:8px;top:8px;background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer}
+  .editrow .g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .addrow{width:100%;border:1px dashed var(--gray);background:transparent;color:var(--navy);border-radius:8px;padding:9px;cursor:pointer;font-size:13px;margin-bottom:6px}
+  .ebtns{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}
+  .ebtn{border:none;border-radius:9px;padding:11px 16px;font-weight:700;font-size:13.5px;cursor:pointer;font-family:var(--sans);flex:1}
+  .ebtn.primary{background:var(--gold);color:var(--navy)}
+  .ebtn.ghost{background:transparent;color:var(--navy);border:1px solid var(--navy)}
+
+  .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(18px);background:var(--navy);color:#fff;
+    padding:11px 20px;border-radius:10px;font-size:13.5px;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:.25s;z-index:200;border:1px solid var(--gold)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  @media(max-width:480px){ .kpis{grid-template-columns:1fr 1fr} }
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="home" href="index.html">← 首頁</a>
+  <div class="wm">熊誠毅<b>｜誠毅傳承</b></div>
+  <button class="editbtn" onclick="openEditor()">✎ 編輯</button>
+</header>
+
+<section class="mast">
+  <div class="wrap">
+    <div class="eyebrow">DAILY MARKET BRIEF</div>
+    <h1>每日財經速報</h1>
+    <div class="date"><span class="d" id="mDate">—</span><span id="mWeek"></span><span id="mEditor" style="margin-left:auto;opacity:.7"></span></div>
+    <div class="rule"></div>
+  </div>
+</section>
+
+<main>
+  <div class="sect">
+    <div class="lbl">今日數據</div>
+    <div class="kpis" id="kpis"></div>
+  </div>
+
+  <div class="sect">
+    <div class="lbl">今日焦點 · 一句話判讀</div>
+    <div id="focus"></div>
+  </div>
+
+  <div class="sect">
+    <div class="lbl">給客戶的一句話</div>
+    <div class="cline">
+      <div class="cl-lbl">CLIENT TAKE</div>
+      <div class="cl-txt" id="clientLine">—</div>
+      <a class="cl-go" href="talk.html">完整客戶講稿 →</a>
+    </div>
+  </div>
+
+  <div class="qlinks">
+    <a class="qlink" href="decode.html"><div class="qi">🧭</div><b>判讀工具</b><small>自己拆解一則新聞</small></a>
+    <a class="qlink" href="cards.html"><div class="qi">📇</div><b>觀念小卡</b><small>看不懂名詞先查這</small></a>
+  </div>
+
+  <div class="datanote">
+    <b>資料說明：</b>本速報數據由編輯手動彙整或引用公開報導，僅供教育與溝通參考，不預測點位、不保證報酬。
+    每日更新方式：點右上「✎ 編輯」填入今日重點，可<b>匯出 brief.json</b> 更新網站，或<b>複製 LINE 文字</b>直接發送。
+  </div>
+</main>
+
+<footer>
+  <div class="bd">熊誠毅<b>｜誠毅傳承</b></div>
+  <div>財經自學站 ｜ 每日財經速報</div>
+  <div class="motto">◈ 用專業守護家族價值・以誠意延續財富生命 ◈</div>
+</footer>
+
+<!-- 編輯抽屜 -->
+<div class="editwrap" id="editwrap" onclick="if(event.target===this)closeEditor()">
+  <div class="editor">
+    <h2>編輯今日速報 <button class="x" onclick="closeEditor()">×</button></h2>
+
+    <div class="eh">日期與編輯</div>
+    <div class="fld"><label>日期</label><input id="eDate" placeholder="2026-07-02"></div>
+    <div class="editrow" style="padding:0;border:none;background:none">
+      <div class="g2">
+        <div class="fld"><label>星期</label><input id="eWeek" placeholder="週四"></div>
+        <div class="fld"><label>編輯</label><input id="eEditor" placeholder="熊誠毅"></div>
+      </div>
+    </div>
+
+    <div class="eh">今日數據（最多 4 項）</div>
+    <div id="eKpis"></div>
+    <button class="addrow" onclick="addKpi()">＋ 新增數據</button>
+
+    <div class="eh">今日焦點（最多 5 則）</div>
+    <div id="eFocus"></div>
+    <button class="addrow" onclick="addFocus()">＋ 新增焦點</button>
+
+    <div class="eh">給客戶的一句話</div>
+    <div class="fld"><textarea id="eClient" rows="2" placeholder="一句可以對客戶說的話…"></textarea></div>
+
+    <div class="ebtns">
+      <button class="ebtn primary" onclick="exportJson()">匯出 brief.json</button>
+      <button class="ebtn ghost" onclick="copyLine()">複製 LINE 文字</button>
+    </div>
+    <div class="ebtns">
+      <button class="ebtn ghost" onclick="applyPreview()">套用預覽</button>
+      <button class="ebtn ghost" onclick="loadSampleToEditor()">載入範例</button>
+    </div>
+    <div style="font-size:11px;color:var(--muted);margin-top:10px;line-height:1.6">
+      匯出的 brief.json 覆蓋到網站同資料夾即完成當日更新；草稿會自動存在本機瀏覽器。
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+var mem={};
+var store={get:function(k){try{return localStorage.getItem(k)}catch(e){return mem[k]||null}},
+  set:function(k,v){try{localStorage.setItem(k,v)}catch(e){mem[k]=v}}};
+var DKEY="cyc_brief_draft_v1";
+
+var SAMPLE={
+  date:"2026-07-02", weekday:"週四", editor:"熊誠毅",
+  kpis:[
+    {name:"加權指數",value:"47,018",chg:"+893 (+1.94%)",dir:"up",note:"帶量重返47K"},
+    {name:"美元/台幣",value:"31.874",chg:"貶值",dir:"down",note:"近三月新低"},
+    {name:"日圓/美元",value:"162.84",chg:"貶值",dir:"down",note:"40年新低"},
+    {name:"台積電",value:"2,505",chg:"+95 (+3.94%)",dir:"up",note:"歷史次高"}
+  ],
+  focus:[
+    {title:"台股帶量重返 47K",market:"股市",tag:"偏多",take:"台積電領軍、外資終止連六賣轉買，但買盤集中電子、漲多股留意獲利了結。"},
+    {title:"日圓破底，官方傳7/3干預",market:"匯率",tag:"偏空",take:"美日利差是主因，干預頂多減緩跌勢、難改長期趨勢；留意美債連動。"},
+    {title:"日企短觀信心8年最高",market:"日股",tag:"中性",take:"信心與通膨預期雙升，強化日銀升息可能，何時升息成焦點。"},
+    {title:"7月升息？Fed華許拒透露",market:"美股",tag:"中性",take:"不給前瞻指引＋就業放緩，市場不確定性升高，波動可能加大。"}
+  ],
+  clientLine:"行情熱的時候，正是把一部分獲利『鎖成確定性』的好時機。"
+};
+
+var DATA=null;
+function esc(s){return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+function el(t,c,h){var e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e}
+function arw(dir){return dir==="up"?"▲":dir==="down"?"▼":"—"}
+
+// ── 檢視渲染 ──
+function render(){
+  var d=DATA;
+  document.getElementById("mDate").textContent=d.date||"—";
+  document.getElementById("mWeek").textContent=d.weekday||"";
+  document.getElementById("mEditor").textContent=d.editor?("編輯 "+d.editor):"";
+  var k=document.getElementById("kpis");k.innerHTML="";
+  (d.kpis||[]).forEach(function(x){
+    k.appendChild(el("div","kpi",
+      '<div class="kn">'+esc(x.name)+'</div>'+
+      '<div class="kv">'+esc(x.value)+'<span class="arw '+x.dir+'">'+arw(x.dir)+'</span></div>'+
+      '<div class="kc '+x.dir+'">'+esc(x.chg||"")+'</div>'+
+      (x.note?'<div class="kt">'+esc(x.note)+'</div>':'')));
+  });
+  var f=document.getElementById("focus");f.innerHTML="";
+  (d.focus||[]).forEach(function(x){
+    var tag=(x.tag||"中性");
+    f.appendChild(el("div","focus",
+      '<div class="fh"><div class="ft">'+esc(x.title)+'</div>'+
+        '<span class="tag '+tag+'">'+tag+'</span>'+
+        (x.market?'<span class="mchip">'+esc(x.market)+'</span>':'')+'</div>'+
+      '<div class="fk">'+esc(x.take)+'</div>'));
+  });
+  document.getElementById("clientLine").textContent=d.clientLine||"—";
+}
+
+// ── 載入：草稿 > brief.json > 範例 ──
+function boot(){
+  var draft=store.get(DKEY);
+  if(draft){try{DATA=JSON.parse(draft);render();return;}catch(e){}}
+  fetch("brief.json",{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){
+    DATA=j;render();
+  }).catch(function(){ DATA=JSON.parse(JSON.stringify(SAMPLE));render(); });
+}
+
+// ── 編輯器 ──
+function openEditor(){ fillEditor(DATA||SAMPLE); document.getElementById("editwrap").classList.add("show"); }
+function closeEditor(){ document.getElementById("editwrap").classList.remove("show"); }
+
+function kpiRow(x){
+  x=x||{name:"",value:"",chg:"",dir:"flat",note:""};
+  var r=el("div","editrow");
+  r.innerHTML=
+    '<button class="rm" onclick="this.parentNode.remove()">×</button>'+
+    '<div class="fld"><label>名稱</label><input class="k-name" value="'+esc(x.name)+'" placeholder="加權指數"></div>'+
+    '<div class="g2">'+
+      '<div class="fld"><label>數值</label><input class="k-value" value="'+esc(x.value)+'" placeholder="47,018"></div>'+
+      '<div class="fld"><label>漲跌方向</label><select class="k-dir">'+
+        ['up|漲(紅)','down|跌(綠)','flat|平'].map(function(o){var v=o.split("|");return '<option value="'+v[0]+'"'+(x.dir===v[0]?" selected":"")+'>'+v[1]+'</option>'}).join('')+
+      '</select></div>'+
+    '</div>'+
+    '<div class="g2">'+
+      '<div class="fld"><label>漲跌幅</label><input class="k-chg" value="'+esc(x.chg)+'" placeholder="+893 (+1.94%)"></div>'+
+      '<div class="fld"><label>備註</label><input class="k-note" value="'+esc(x.note)+'" placeholder="帶量重返47K"></div>'+
+    '</div>';
+  return r;
+}
+function focusRow(x){
+  x=x||{title:"",market:"",tag:"中性",take:""};
+  var r=el("div","editrow");
+  r.innerHTML=
+    '<button class="rm" onclick="this.parentNode.remove()">×</button>'+
+    '<div class="fld"><label>焦點標題</label><input class="f-title" value="'+esc(x.title)+'" placeholder="台股帶量重返47K"></div>'+
+    '<div class="g2">'+
+      '<div class="fld"><label>市場</label><input class="f-market" value="'+esc(x.market)+'" placeholder="股市"></div>'+
+      '<div class="fld"><label>判讀</label><select class="f-tag">'+
+        ['偏多','偏空','中性'].map(function(t){return '<option'+(x.tag===t?" selected":"")+'>'+t+'</option>'}).join('')+
+      '</select></div>'+
+    '</div>'+
+    '<div class="fld"><label>一句話判讀</label><textarea class="f-take" rows="2" placeholder="這則的重點與判讀…">'+esc(x.take)+'</textarea></div>';
+  return r;
+}
+function addKpi(x){ if(document.querySelectorAll("#eKpis .editrow").length>=4){toast("數據最多 4 項");return;} document.getElementById("eKpis").appendChild(kpiRow(x&&x.name?x:null)); }
+function addFocus(x){ if(document.querySelectorAll("#eFocus .editrow").length>=5){toast("焦點最多 5 則");return;} document.getElementById("eFocus").appendChild(focusRow(x&&x.title?x:null)); }
+
+function fillEditor(d){
+  document.getElementById("eDate").value=d.date||"";
+  document.getElementById("eWeek").value=d.weekday||"";
+  document.getElementById("eEditor").value=d.editor||"";
+  document.getElementById("eClient").value=d.clientLine||"";
+  var ek=document.getElementById("eKpis");ek.innerHTML="";(d.kpis||[]).slice(0,4).forEach(function(x){ek.appendChild(kpiRow(x))});
+  var ef=document.getElementById("eFocus");ef.innerHTML="";(d.focus||[]).slice(0,5).forEach(function(x){ef.appendChild(focusRow(x))});
+}
+function loadSampleToEditor(){ fillEditor(SAMPLE); toast("已載入範例"); }
+
+function collect(){
+  var d={ date:val("eDate"), weekday:val("eWeek"), editor:val("eEditor"), clientLine:val("eClient"), kpis:[], focus:[] };
+  document.querySelectorAll("#eKpis .editrow").forEach(function(r){
+    var name=q(r,".k-name"); if(!name)return;
+    d.kpis.push({ name:name, value:q(r,".k-value"), chg:q(r,".k-chg"), dir:q(r,".k-dir"), note:q(r,".k-note") });
+  });
+  document.querySelectorAll("#eFocus .editrow").forEach(function(r){
+    var title=q(r,".f-title"); if(!title)return;
+    d.focus.push({ title:title, market:q(r,".f-market"), tag:q(r,".f-tag"), take:q(r,".f-take") });
+  });
+  return d;
+}
+function val(id){return document.getElementById(id).value.trim()}
+function q(r,sel){var e=r.querySelector(sel);return e?e.value.trim():""}
+
+function applyPreview(){ DATA=collect(); store.set(DKEY,JSON.stringify(DATA)); render(); closeEditor(); toast("已套用並存草稿"); }
+
+function exportJson(){
+  var d=collect(); store.set(DKEY,JSON.stringify(d));
+  var blob=new Blob([JSON.stringify(d,null,2)],{type:"application/json"});
+  var a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="brief.json";
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  DATA=d;render(); toast("已匯出 brief.json");
+}
+
+function copyLine(){
+  var d=collect();
+  var L=[];
+  L.push("📊 誠毅傳承·每日財經速報");
+  L.push((d.date||"")+" "+(d.weekday||""));
+  L.push("");
+  if(d.kpis.length){ L.push("【今日數據】");
+    d.kpis.forEach(function(x){ var s=x.dir==="up"?"▲":x.dir==="down"?"▼":"—"; L.push("・"+x.name+" "+x.value+" "+s+(x.chg?(" "+x.chg):"")); });
+    L.push(""); }
+  if(d.focus.length){ L.push("【今日焦點】");
+    d.focus.forEach(function(x){ L.push("・["+(x.tag||"中性")+"] "+x.title); L.push("　"+x.take); });
+    L.push(""); }
+  if(d.clientLine){ L.push("💬 "+d.clientLine); L.push(""); }
+  L.push("— 熊誠毅｜誠毅傳承");
+  var txt=L.join("\n");
+  var done=function(){toast("已複製，可貼到 LINE")};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,function(){fb(txt);done()})}
+  else{fb(txt);done()}
+}
+function fb(txt){var ta=document.createElement("textarea");ta.value=txt;ta.style.position="fixed";ta.style.opacity="0";
+  document.body.appendChild(ta);ta.select();try{document.execCommand("copy")}catch(e){}document.body.removeChild(ta)}
+
+function toast(m){var t=document.getElementById("toast");t.textContent=m;t.classList.add("show");setTimeout(function(){t.classList.remove("show")},1900)}
+
+boot();
+if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}
+</script>
+</body>
+</html>

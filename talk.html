@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1B2A4A">
+<title>客戶說明講稿 · 手機速查 ｜ 誠毅傳承</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="財經自學站">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@600;700;900&family=Playfair+Display:ital,wght@0,600;0,800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1B2A4A; --navy-l:#2E4A7A; --gold:#C9A84C; --gold-d:#A07830;
+    --cream:#FAF6EE; --gray:#E8E0D0; --ink:#333; --muted:#8a8577; --white:#fff; --orange:#D4711E;
+    --serif:"Noto Serif TC",serif; --sans:"Noto Sans TC",sans-serif; --disp:"Playfair Display",serif;
+    --shadow:0 8px 26px rgba(27,42,74,.13);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.75;-webkit-font-smoothing:antialiased}
+  ::selection{background:var(--gold);color:var(--navy)}
+  a{color:inherit;text-decoration:none}
+
+  header.top{position:sticky;top:0;z-index:50;background:var(--navy);color:#fff;display:flex;align-items:center;
+    gap:10px;padding:11px 14px;border-bottom:2px solid var(--gold);padding-top:calc(11px + env(safe-area-inset-top))}
+  header.top a.home{color:var(--gold);font-size:13px;flex:none}
+  header.top .wm{font-family:var(--serif);font-weight:700;font-size:14px;flex:1;text-align:center}
+  header.top .wm b{color:var(--orange)}
+
+  .intro{background:linear-gradient(140deg,var(--navy),var(--navy-l));color:#fff;padding:22px 18px}
+  .intro .eyebrow{font-family:var(--disp);font-style:italic;color:var(--gold);letter-spacing:1.5px;font-size:12px}
+  .intro h1{font-family:var(--serif);font-weight:900;font-size:22px;margin-top:4px}
+  .intro p{color:var(--cream);font-size:13px;margin-top:6px}
+  .intro .mantra{margin-top:12px;background:rgba(201,168,76,.14);border:1px solid rgba(201,168,76,.4);
+    border-radius:10px;padding:11px 13px;font-family:var(--serif);font-size:15px;color:#fff;line-height:1.6}
+
+  .tabs{position:sticky;top:calc(47px + env(safe-area-inset-top));z-index:40;background:var(--cream);
+    display:flex;gap:7px;padding:11px 12px;box-shadow:0 6px 12px -9px rgba(27,42,74,.25)}
+  .tab{flex:1;text-align:center;border:1px solid var(--gray);background:#fff;color:var(--navy);border-radius:10px;
+    padding:10px 6px;font-size:13.5px;font-weight:700;cursor:pointer;transition:.15s}
+  .tab.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+
+  main{max-width:560px;margin:0 auto;padding:16px 14px 60px}
+  .pane{display:none}
+  .pane.on{display:block;animation:fade .3s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  /* 講稿 accordion */
+  .acc{background:#fff;border:1px solid var(--gray);border-radius:14px;margin-bottom:12px;overflow:hidden;box-shadow:0 3px 12px rgba(27,42,74,.07)}
+  .acc .hd{padding:16px 16px;cursor:pointer;display:flex;align-items:center;gap:12px}
+  .acc .hd .no{flex:none;width:34px;height:34px;border-radius:9px;background:var(--navy);color:var(--gold);
+    font-family:var(--disp);font-weight:800;font-size:17px;display:grid;place-items:center}
+  .acc.open .hd .no{background:var(--gold);color:var(--navy)}
+  .acc .hd .t{flex:1}
+  .acc .hd .t b{display:block;font-family:var(--serif);font-size:16px;color:var(--navy);font-weight:700;line-height:1.35}
+  .acc .hd .t small{color:var(--gold-d);font-size:12px;font-weight:700}
+  .acc .hd .chev{color:var(--muted);font-size:16px;transition:.25s}
+  .acc.open .hd .chev{transform:rotate(180deg)}
+  .acc .body{display:none;padding:0 15px 16px}
+  .acc.open .body{display:block}
+
+  .qline{border-radius:11px;overflow:hidden;border:1px solid var(--gray);margin-top:10px}
+  .qline .lab{background:var(--navy);color:#fff;font-size:12.5px;font-weight:700;padding:7px 12px;letter-spacing:.5px}
+  .qline .say{background:var(--cream);padding:12px 13px}
+  .qline .say p{font-family:var(--serif);font-size:17px;line-height:1.75;color:var(--ink)}
+  .qline .say p+p{margin-top:9px}
+  .qline.open2 .lab{background:var(--orange)}
+
+  .noteToggle{margin-top:12px;width:100%;border:1px dashed var(--gold);background:#FFF8E6;color:var(--gold-d);
+    border-radius:9px;padding:9px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:var(--sans)}
+  .note{display:none;margin-top:8px;background:#FFF8E6;border:1px solid #F0E2B8;border-radius:9px;padding:11px 13px}
+  .note.show{display:block}
+  .note .nt{font-size:11.5px;font-weight:700;color:var(--gold-d);margin-bottom:5px}
+  .note li{list-style:none;font-size:12.5px;color:var(--navy-l);line-height:1.6;padding-left:14px;position:relative;margin-bottom:5px}
+  .note li::before{content:"・";position:absolute;left:0}
+
+  /* 追問 */
+  .obj{background:#fff;border:1px solid var(--gray);border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:0 3px 12px rgba(27,42,74,.07)}
+  .obj .q{font-family:var(--serif);font-weight:700;color:var(--orange);font-size:16px;margin-bottom:10px;display:flex;gap:8px}
+  .obj .q::before{content:"Q";font-family:var(--disp);color:var(--gold);font-weight:800}
+  .obj .a{background:var(--cream);border-radius:10px;padding:12px 13px}
+  .obj .a p{font-family:var(--serif);font-size:16px;line-height:1.75;color:var(--ink)}
+  .obj .a p+p{margin-top:8px}
+
+  /* 公式 */
+  .step{background:#fff;border:1px solid var(--gray);border-radius:13px;padding:15px 16px;margin-bottom:11px;display:flex;gap:13px;box-shadow:0 3px 12px rgba(27,42,74,.07)}
+  .step .k{flex:none;font-family:var(--disp);font-weight:800;font-size:24px;color:var(--gold)}
+  .step .st b{color:var(--navy);font-size:16px;font-family:var(--serif)}
+  .step .st p{font-size:13.5px;color:var(--ink);margin-top:3px}
+  .tone{background:linear-gradient(140deg,var(--navy),var(--navy-l));color:#fff;border-radius:13px;padding:16px;margin-top:6px}
+  .tone b{color:var(--gold)}
+  .tone p{color:var(--cream);font-size:14px;line-height:1.7;margin-top:4px}
+
+  .warn{margin-top:14px;background:#fff;border:1px solid var(--gray);border-left:4px solid var(--orange);border-radius:10px;padding:13px 15px}
+  .warn b{color:var(--orange);font-size:13.5px}
+  .warn li{list-style:none;font-size:12.5px;color:var(--ink);line-height:1.65;padding-left:15px;position:relative;margin-top:6px}
+  .warn li::before{content:"◆";position:absolute;left:0;color:var(--gold);font-size:10px;top:3px}
+
+  footer{background:var(--navy);color:var(--gray);text-align:center;padding:22px;font-size:12px;border-top:2px solid var(--gold);margin-top:24px}
+  footer .bd{font-family:var(--serif);color:#fff;font-size:14px;margin-bottom:4px}
+  footer .bd b{color:var(--orange)}
+  footer .motto{color:var(--gold);font-size:11px;letter-spacing:1px;margin-top:6px}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="home" href="index.html">← 首頁</a>
+  <div class="wm">熊誠毅<b>｜誠毅傳承</b></div>
+  <div style="width:44px"></div>
+</header>
+
+<section class="intro">
+  <div class="eyebrow">CLIENT TALK · QUICK REFERENCE</div>
+  <h1>客戶說明講稿 · 速查</h1>
+  <p>開會前滑一下，把財經新聞變成對客戶說得出口的話。</p>
+  <div class="mantra">「我不是來賣保險的，是來幫您做一次財務健診。」</div>
+</section>
+
+<div class="tabs">
+  <div class="tab on" data-p="talk" onclick="tab('talk')">講稿</div>
+  <div class="tab" data-p="obj" onclick="tab('obj')">追問應對</div>
+  <div class="tab" data-p="formula" onclick="tab('formula')">四步驟</div>
+</div>
+
+<main>
+  <div class="pane on" id="pane-talk"></div>
+  <div class="pane" id="pane-obj"></div>
+  <div class="pane" id="pane-formula"></div>
+</main>
+
+<footer>
+  <div class="bd">熊誠毅<b>｜誠毅傳承</b></div>
+  <div>財經自學站 ｜ 客戶說明講稿速查</div>
+  <div class="motto">◈ 用專業守護家族價值・以誠意延續財富生命 ◈</div>
+</footer>
+
+<script>
+"use strict";
+var SCRIPTS=[
+{tag:"匯率／幣別配置",title:"日圓破底、匯率大變動",
+ open:"「您有看到日圓貶到 40 年新低嗎？其實這件事跟我們每個人的資產都有關係。」",
+ plain:["白話說：匯率就是兩種錢的兌換比例。日圓一直貶，代表把資產全押在單一貨幣，風險其實不小。",
+        "錢就像水，會往利率高的地方流。這次日圓貶，根本原因是美日利率差太大——不是短期能改變的。"],
+ relate:["「我想請教您，您現在手邊的資產，大概是台幣多、還是也有一部分外幣？」",
+         "「如果全部都在同一種貨幣，就像把雞蛋放在同一個籃子。匯率是雙向的，重點是『分散』，不是賭方向。」"],
+ talk:"「要不要找個時間，我幫您看看目前的幣別配置，做一次簡單的健診？不是要您改什麼，先了解現況就好。」",
+ note:["對應異議話術「美元保單有匯率風險」：強調雙向、分散，而非增加風險。",
+       "可延伸：美元計價保單作為外幣配置工具（美利成臻／紅運富御），先談配置、後談工具。",
+       "客戶若全台幣資產 → 外幣缺口診斷切入點。"]},
+{tag:"資產集中風險",title:"台股帶量重返 47K",
+ open:"「台股最近很熱，重返 47,000 點。不過我反而想提醒一件容易被忽略的事。」",
+ plain:["白話說：這波上漲主要靠台積電一檔撐起來，電子股成交量佔了八成以上。",
+        "指數創高當然開心，但當漲勢集中在少數股票，一旦龍頭休息，波動就會被放大。"],
+ relate:["「我想請問，您的投資部位，是不是也集中在少數幾檔熱門股？」",
+         "「賺錢的時候大家都開心，但真正的風險管理，是先想好『萬一回檔』該怎麼辦。」"],
+ talk:"「行情好的時候，正是把一部分獲利『鎖住』、轉成確定性資產的好時機。要不要聊聊怎麼在配置裡加一塊『穩的』？」",
+ note:["切入點：資產過度集中 → 需要一塊『確定性』的部位平衡波動。",
+       "可延伸：儲蓄型保單鎖定利率／保額（美利盈家等），定位『穩的那一塊』，非取代股票。",
+       "呼應：退休最需要的是確定性，不是報酬率。"]},
+{tag:"利率環境",title:"日企信心創高、升息話題升溫",
+ open:"「最近利率是很熱的話題。很多客戶問我：利率這麼高，錢是不是放定存就好？」",
+ plain:["白話說：升息就像央行踩煞車，讓過熱的經濟冷靜；降息則是踩油門。",
+        "現在利率高，定存看起來很香——但定存利率是浮動的，明年若降息，這個『高』就不見了。"],
+ relate:["「我想請教三個問題：一、定存利率是固定的嗎？二、到期後您有把握不動用嗎？三、定存能傳承給下一代嗎？」",
+         "「保險的重點從來不是打敗定存，而是在不確定的未來，幫您『鎖定』一個確定的結果。」"],
+ talk:"「趁現在利率環境還不錯，要不要看看有沒有工具可以幫您把這個利率『鎖久一點』？」",
+ note:["對應異議話術「現在利率高不如放定存」：三問法 + 鎖定確定性。",
+       "可延伸：利率相對高檔時的增額型／儲蓄型保單，鎖定長期利率。",
+       "強調『確定性』與『傳承』是定存沒有的。"]},
+{tag:"景氣循環",title:"亞歐製造業展韌性（PMI）",
+ open:"「最近有個數據叫 PMI，衝上擴張。但我想跟您分享的，是它背後的『提醒』。」",
+ plain:["白話說：PMI 是工廠老闆的信心溫度計，超過 50 代表景氣在擴張，是『領先指標』。",
+        "這波韌性靠 AI 需求撐著，但成本通膨還在高檔——擴張的『量』和獲利的『質』要分開看。"],
+ relate:["「景氣有循環，有高有低。您的財務規劃，是跟著短期景氣起伏，還是有一條不受景氣影響的長期主軸？」",
+         "「真正穩健的規劃，是不管景氣好壞，都能照著走的那種。」"],
+ talk:"「要不要一起檢視看看，您的資產裡有多少是『看天吃飯』、多少是『不受景氣影響』的？」",
+ note:["切入點：景氣有循環 → 需要不受短期波動影響的長期主軸。",
+       "可延伸：終身壽險／長期儲蓄作為跨越景氣循環的『定海神針』。",
+       "適合帶到傳承、退休等長天期目標對話。"]},
+{tag:"不確定性",title:"7 月升息？Fed 拒絕透露",
+ open:"「連 Fed 主席都說不透露會不會升息了。我覺得這件事，其實給了我們一個很重要的啟示。」",
+ plain:["白話說：當央行故意不給方向，市場只能自己猜，每一筆數據都會讓市場劇烈震盪。",
+        "換句話說，連掌握最多資訊的央行都無法給你確定答案——未來，本質上就是不確定的。"],
+ relate:["「既然未來這麼難預測，我們能做的，是不是先把『能確定的部分』先確定下來？」",
+         "「保險的價值，就是在一片不確定裡，幫您和家人鎖住幾個『一定會發生』的結果。」"],
+ talk:"「要不要花點時間，把您最在意的幾件事——家人的保障、退休的現金流、財富的傳承——先做成『確定』的安排？」",
+ note:["核心訊息：未來不確定 → 保險提供『確定性』，最通用的切入角度。",
+       "可連結保障缺口、退休缺口、傳承缺口三大診斷。",
+       "呼應開場：『我不是來賣保險的，是來幫您在不確定裡鎖定確定。』"]}
+];
+var OBJ=[
+ {q:"「美元保單有匯率風險吧？」",a:["「這個擔心很合理。但匯率是雙向的——台幣升值您有損失，台幣貶值您就受益。」","「長期適度配置外幣，是『分散』風險，不是增加風險。您現在台幣、外幣的比例大概是多少呢？」"]},
+ {q:"「現在利率高，放定存就好？」",a:["「定存利率是浮動的，明年降息就變了；而且定存能傳承、有保障嗎？」","「保險不是要打敗定存，是幫您在不確定的未來，鎖定一個確定的結果。」"]},
+ {q:"「我再想想。」",a:["「當然，重要決定要想清楚。我想請問，您主要還在考慮的是哪部分——商品、預算、還是時機？」","「找到真正的顧慮，我才能給您最適合的建議，而不是一直推。」"]}
+];
+var STEPS=[
+ ["①","一句話結論","先講重點，別掉書袋。用一句客戶聽得懂的話點出這則新聞在講什麼。"],
+ ["②","白話解釋","用生活比喻把名詞講清楚（利率像煞車、匯率像換錢、PMI 像溫度計）。"],
+ ["③","這跟您的關係","把新聞連到客戶自己的資產與生活，讓他覺得「這跟我有關」。"],
+ ["④","開啟對話","用開放式問題邀請客戶談自己的狀況，不推銷、不逼單。"]
+];
+var WARN=[
+ "財經資訊僅供教育與溝通，不預測點位、不保證投資報酬。",
+ "談匯率、市場走勢時強調「雙向」與「分散」，避免單向斷言。",
+ "月配息型須說明「配息來源可能含本金返還」，配息率 ≠ 報酬率。",
+ "商品數字（保費、保額、IRR）以正式建議書與保單條款為準。",
+ "先建立信任、了解需求再談規劃；新聞是開場，不是逼單工具。"
+];
+
+function esc(s){return s}
+function renderTalk(){
+  var h="";
+  SCRIPTS.forEach(function(s,i){
+    h+='<div class="acc" id="acc'+i+'">'+
+       '<div class="hd" onclick="toggleAcc('+i+')">'+
+         '<div class="no">'+(i+1)+'</div>'+
+         '<div class="t"><b>'+s.title+'</b><small>'+s.tag+'</small></div>'+
+         '<div class="chev">▾</div>'+
+       '</div>'+
+       '<div class="body">'+
+         qline("① 開場一句",[s.open],false)+
+         qline("② 白話說明",s.plain,false)+
+         qline("③ 這跟您的關係",s.relate,true)+
+         qline("④ 開啟對話",[s.talk],true)+
+         '<button class="noteToggle" onclick="toggleNote('+i+')">🔒 顧問內部筆記（點開）</button>'+
+         '<div class="note" id="note'+i+'"><div class="nt">不對客戶念</div><ul>'+
+           s.note.map(function(n){return '<li>'+n+'</li>'}).join('')+
+         '</ul></div>'+
+       '</div></div>';
+  });
+  document.getElementById("pane-talk").innerHTML=h;
+}
+function qline(lab,arr,orange){
+  return '<div class="qline'+(orange?' open2':'')+'"><div class="lab">'+lab+'</div>'+
+    '<div class="say">'+arr.map(function(t){return '<p>'+t+'</p>'}).join('')+'</div></div>';
+}
+function renderObj(){
+  document.getElementById("pane-obj").innerHTML=OBJ.map(function(o){
+    return '<div class="obj"><div class="q">'+o.q+'</div><div class="a">'+
+      o.a.map(function(t){return '<p>'+t+'</p>'}).join('')+'</div></div>';
+  }).join('');
+}
+function renderFormula(){
+  var h=STEPS.map(function(s){
+    return '<div class="step"><div class="k">'+s[0]+'</div><div class="st"><b>'+s[1]+'</b><p>'+s[2]+'</p></div></div>';
+  }).join('');
+  h+='<div class="tone"><b>口吻提醒</b><p>你是「幫客戶看懂世界的顧問」，不是「急著成交的業務」。財經新聞是建立信任的開場，不是推銷的藉口。</p></div>';
+  h+='<div class="warn"><b>合規務必遵守</b><ul>'+WARN.map(function(w){return '<li>'+w+'</li>'}).join('')+'</ul></div>';
+  document.getElementById("pane-formula").innerHTML=h;
+}
+
+function toggleAcc(i){document.getElementById("acc"+i).classList.toggle("open")}
+function toggleNote(i){event.stopPropagation();document.getElementById("note"+i).classList.toggle("show")}
+function tab(p){
+  ["talk","obj","formula"].forEach(function(x){
+    document.getElementById("pane-"+x).classList.toggle("on",x===p);
+  });
+  document.querySelectorAll(".tab").forEach(function(t){t.classList.toggle("on",t.getAttribute("data-p")===p)});
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+renderTalk();renderObj();renderFormula();
+if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}
+</script>
+</body>
+</html>

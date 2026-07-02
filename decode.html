@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1B2A4A">
+<title>財經新聞判讀術 ｜ 誠毅傳承</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="財經判讀">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@500;700;900&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1B2A4A; --navy-l:#2E4A7A; --gold:#C9A84C; --gold-d:#A07830;
+    --cream:#FAF6EE; --gray:#E8E0D0; --ink:#333; --muted:#8a8577; --white:#fff;
+    --orange:#D4711E;
+    --serif:"Noto Serif TC",serif; --sans:"Noto Sans TC",sans-serif; --disp:"Playfair Display",serif;
+    --shadow:0 6px 24px rgba(27,42,74,.10); --shadow-sm:0 2px 8px rgba(27,42,74,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.65;-webkit-font-smoothing:antialiased}
+  ::selection{background:var(--gold);color:var(--navy)}
+
+  /* ── header ── */
+  header.top{position:sticky;top:0;z-index:50;background:var(--navy);color:var(--white);
+    display:flex;align-items:center;gap:12px;padding:10px 20px;border-bottom:2px solid var(--gold)}
+  header.top img{width:34px;height:34px;border-radius:6px;flex:none}
+  header.top .wm{font-family:var(--serif);font-weight:700;font-size:16px;letter-spacing:.5px}
+  header.top .wm b{color:var(--orange)}
+  header.top .wm span{color:var(--gold);font-weight:500;font-size:13px;margin:0 4px}
+  header.top .spacer{flex:1}
+  header.top .save-hint{font-size:11px;color:var(--gold);opacity:.85;font-family:var(--disp);letter-spacing:.5px}
+
+  /* ── hero ── */
+  .hero{background:linear-gradient(135deg,var(--navy),var(--navy-l));color:var(--white);
+    padding:48px 24px 40px;position:relative;overflow:hidden}
+  .hero::after{content:"";position:absolute;right:-60px;top:-60px;width:240px;height:240px;
+    border:1px solid rgba(201,168,76,.25);border-radius:50%}
+  .hero::before{content:"";position:absolute;right:10px;top:40px;width:150px;height:150px;
+    border:1px solid rgba(201,168,76,.18);border-radius:50%}
+  .hero .wrap{max-width:960px;margin:0 auto;position:relative;z-index:1}
+  .hero .eyebrow{font-family:var(--disp);font-style:italic;color:var(--gold);letter-spacing:2px;font-size:14px;margin-bottom:10px}
+  .hero h1{font-family:var(--serif);font-weight:900;font-size:clamp(28px,5vw,44px);line-height:1.2;letter-spacing:1px}
+  .hero .sub{color:var(--gray);margin-top:10px;font-size:15px;max-width:640px}
+  .hero .flow{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  .hero .flow .step{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.06);
+    border:1px solid rgba(201,168,76,.3);border-radius:999px;padding:7px 16px;font-size:13px}
+  .hero .flow .step .n{font-family:var(--disp);color:var(--gold);font-weight:800}
+  .hero .flow .arw{color:var(--gold);align-self:center;font-size:12px}
+
+  main{max-width:960px;margin:0 auto;padding:26px 20px 60px}
+
+  /* ── case picker ── */
+  .picker{background:var(--white);border:1px solid var(--gray);border-radius:14px;padding:18px;box-shadow:var(--shadow-sm);margin-bottom:26px}
+  .picker .lbl{font-family:var(--serif);font-weight:700;color:var(--navy);font-size:15px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .picker .lbl::before{content:"";width:4px;height:16px;background:var(--gold);border-radius:2px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{border:1px solid var(--gray);background:var(--cream);color:var(--navy);border-radius:10px;
+    padding:9px 13px;font-size:13px;cursor:pointer;font-family:var(--sans);transition:.18s;line-height:1.3;text-align:left}
+  .chip:hover{border-color:var(--gold);transform:translateY(-1px)}
+  .chip.active{background:var(--navy);color:var(--white);border-color:var(--navy)}
+  .chip.blank{border-style:dashed}
+
+  /* ── news panel ── */
+  .news{background:var(--navy);color:var(--white);border-radius:14px;padding:20px 22px;margin-bottom:8px;box-shadow:var(--shadow)}
+  .news .src{font-family:var(--disp);font-size:12px;color:var(--gold);letter-spacing:1px;margin-bottom:6px}
+  .news input.title{width:100%;background:transparent;border:none;color:var(--white);font-family:var(--serif);
+    font-weight:700;font-size:22px;line-height:1.35;outline:none;padding:2px 0}
+  .news input.title::placeholder{color:rgba(255,255,255,.4)}
+  .news textarea.body{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(201,168,76,.25);
+    border-radius:8px;color:var(--gray);font-family:var(--sans);font-size:13.5px;line-height:1.6;
+    padding:10px 12px;margin-top:12px;resize:vertical;min-height:64px;outline:none}
+  .news textarea.body::placeholder{color:rgba(255,255,255,.35)}
+
+  /* ── upload ── */
+  .uploadbar{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  .uploadbar .ubtn{border:1px solid rgba(201,168,76,.5);background:rgba(255,255,255,.06);color:var(--gold);
+    border-radius:9px;padding:9px 14px;font-family:var(--sans);font-size:13px;cursor:pointer;transition:.15s;display:inline-flex;align-items:center;gap:7px}
+  .uploadbar .ubtn:hover{background:rgba(201,168,76,.16)}
+  .uploadbar .uinfo{font-size:11.5px;color:var(--gray);opacity:.75}
+  .thumbwrap{margin-top:12px;display:none}
+  .thumbwrap.show{display:block}
+  .thumbwrap img{max-width:100%;max-height:320px;border-radius:10px;border:1px solid rgba(201,168,76,.35);display:block;cursor:zoom-in}
+  .thumbwrap .tcap{font-size:11px;color:var(--gray);opacity:.7;margin-top:5px}
+  /* lightbox */
+  .lightbox{position:fixed;inset:0;background:rgba(10,16,30,.92);z-index:200;display:none;align-items:center;justify-content:center;padding:16px}
+  .lightbox.show{display:flex}
+  .lightbox img{max-width:100%;max-height:100%;border-radius:8px}
+  .lightbox .x{position:absolute;top:16px;right:18px;color:#fff;font-size:30px;cursor:pointer;background:none;border:none}
+
+  /* ── keyword assist ── */
+  .assist{background:#FFF8E6;border:1px solid #F0E2B8;border-radius:12px;padding:16px 18px;margin-top:14px;display:none}
+  .assist.show{display:block;animation:rise .35s ease}
+  .assist .ah{font-family:var(--serif);font-weight:700;color:var(--gold-d);font-size:14px;display:flex;align-items:center;gap:8px;margin-bottom:4px}
+  .assist .asub{font-size:11.5px;color:var(--muted);margin-bottom:12px}
+  .assist .terms{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px}
+  .assist .tchip{background:#fff;border:1px solid var(--gray);border-radius:999px;padding:5px 12px;font-size:12.5px;color:var(--navy)}
+  .assist .tchip b{color:var(--orange)}
+  .assist .sugg{font-size:12.5px;color:var(--ink);line-height:1.6;background:#fff;border:1px solid var(--gray);border-radius:9px;padding:10px 12px}
+  .assist .sugg b{color:var(--navy)}
+  .assist .applybtn{margin-top:10px;border:1px solid var(--navy);background:var(--navy);color:#fff;border-radius:8px;
+    padding:8px 15px;font-size:12.5px;cursor:pointer;font-family:var(--sans)}
+  .assist .applybtn:hover{background:var(--navy-l)}
+
+  /* install banner */
+  #installBar{display:none;position:fixed;left:16px;right:16px;bottom:16px;z-index:120;background:var(--navy);
+    color:#fff;border:1px solid var(--gold);border-radius:12px;padding:12px 14px;align-items:center;gap:12px;box-shadow:var(--shadow)}
+  #installBar.show{display:flex}
+  #installBar .it{flex:1;font-size:13px}
+  #installBar .it b{color:var(--gold);font-family:var(--serif)}
+  #installBar button{border:none;border-radius:8px;padding:8px 14px;font-size:13px;cursor:pointer;font-family:var(--sans);font-weight:700}
+  #installBar .yes{background:var(--gold);color:var(--navy)}
+  #installBar .no{background:transparent;color:var(--gray);border:1px solid rgba(255,255,255,.25)}
+
+  /* ── layers ── */
+  .layer{background:var(--white);border:1px solid var(--gray);border-radius:14px;padding:22px;margin-top:20px;box-shadow:var(--shadow-sm);position:relative}
+  .layer .head{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px}
+  .layer .badge{flex:none;width:44px;height:44px;border-radius:12px;background:var(--navy);color:var(--gold);
+    font-family:var(--disp);font-weight:800;font-size:22px;display:grid;place-items:center}
+  .layer.done .badge{background:var(--gold);color:var(--navy)}
+  .layer .head h2{font-family:var(--serif);font-weight:700;color:var(--navy);font-size:19px;line-height:1.3}
+  .layer .head p{font-size:12.5px;color:var(--muted);margin-top:2px}
+  .layer .hint{font-size:12px;color:var(--gold-d);background:#FFF8E6;border:1px solid #F0E2B8;
+    border-radius:8px;padding:8px 11px;margin-bottom:14px;line-height:1.5}
+
+  /* two column L1 */
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .col h3{font-size:14px;font-weight:700;color:var(--white);padding:8px 12px;border-radius:8px 8px 0 0;margin:0}
+  .col.fact h3{background:var(--navy)}
+  .col.view h3{background:var(--orange)}
+  .col .box{border:1px solid var(--gray);border-top:none;border-radius:0 0 8px 8px;padding:10px;background:var(--cream)}
+  .itemrow{display:flex;gap:7px;margin-bottom:7px}
+  .itemrow input{flex:1;border:1px solid var(--gray);border-radius:7px;padding:8px 10px;font-family:var(--sans);
+    font-size:13px;background:var(--white);outline:none;color:var(--ink)}
+  .itemrow input:focus{border-color:var(--gold)}
+  .itemrow .del{flex:none;width:30px;border:none;background:transparent;color:var(--muted);cursor:pointer;font-size:16px;border-radius:6px}
+  .itemrow .del:hover{color:var(--orange);background:#fbeee6}
+  .addbtn{border:1px dashed var(--gray);background:transparent;color:var(--navy);border-radius:8px;
+    padding:8px;width:100%;cursor:pointer;font-family:var(--sans);font-size:13px;transition:.15s}
+  .addbtn:hover{border-color:var(--gold);color:var(--gold-d)}
+
+  /* chain L2 */
+  .chain .chainrow{display:flex;gap:10px;align-items:center;margin-bottom:6px}
+  .chain .num{flex:none;width:30px;height:30px;border-radius:50%;background:var(--navy);color:var(--white);
+    font-family:var(--disp);font-weight:800;font-size:14px;display:grid;place-items:center}
+  .chain .chainrow:first-child .num{background:var(--orange)}
+  .chain .chainrow input{flex:1;border:1px solid var(--gray);border-radius:8px;padding:9px 12px;
+    font-size:13.5px;background:var(--cream);outline:none;color:var(--ink)}
+  .chain .chainrow input:focus{border-color:var(--gold);background:var(--white)}
+  .chain .del{flex:none;width:30px;border:none;background:transparent;color:var(--muted);cursor:pointer;font-size:16px}
+  .chain .del:hover{color:var(--orange)}
+  .chain .arrow{color:var(--gold);text-align:center;margin:-2px 0 -2px 14px;font-size:11px;line-height:.6}
+
+  /* markets L3 */
+  .mkts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .mkt{border:1px solid var(--gray);border-radius:12px;overflow:hidden;background:var(--cream);display:flex;flex-direction:column}
+  .mkt .m-top{background:var(--navy);color:var(--white);padding:11px 13px;display:flex;align-items:center;gap:9px}
+  .mkt .m-icon{width:30px;height:30px;border-radius:50%;background:rgba(201,168,76,.9);color:var(--navy);
+    display:grid;place-items:center;font-weight:800;font-size:15px;flex:none}
+  .mkt .m-name{border:none;background:transparent;color:var(--white);font-family:var(--serif);font-weight:700;
+    font-size:16px;width:100%;outline:none}
+  .mkt .m-body{padding:11px 12px;flex:1;display:flex;flex-direction:column;gap:9px}
+  .mkt label{font-size:11.5px;font-weight:700;color:var(--gold-d)}
+  .mkt textarea{border:1px solid var(--gray);border-radius:7px;padding:7px 9px;font-family:var(--sans);
+    font-size:12.5px;resize:vertical;min-height:52px;outline:none;background:var(--white);color:var(--ink);line-height:1.5}
+  .mkt textarea:focus{border-color:var(--gold)}
+
+  /* checklist */
+  .check .ck{display:flex;gap:11px;align-items:flex-start;padding:11px 12px;border:1px solid var(--gray);
+    border-radius:10px;margin-bottom:8px;background:var(--cream);cursor:pointer;transition:.15s}
+  .check .ck:hover{border-color:var(--gold)}
+  .check .ck.on{background:#F3F7EE;border-color:#B9CE9E}
+  .check .cbox{flex:none;width:22px;height:22px;border-radius:6px;border:2px solid var(--navy);
+    display:grid;place-items:center;color:var(--white);font-size:14px;margin-top:1px;transition:.15s}
+  .check .ck.on .cbox{background:var(--navy)}
+  .check .ct b{color:var(--navy);font-size:14px}
+  .check .ct p{font-size:12.5px;color:var(--muted);margin-top:1px}
+
+  /* generate */
+  .gen-bar{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;justify-content:center}
+  .btn{border:none;border-radius:10px;padding:13px 26px;font-family:var(--sans);font-weight:700;font-size:14.5px;cursor:pointer;transition:.18s;display:inline-flex;align-items:center;gap:8px}
+  .btn.primary{background:var(--gold);color:var(--navy)}
+  .btn.primary:hover{background:var(--gold-d);color:var(--white)}
+  .btn.ghost{background:transparent;color:var(--navy);border:1px solid var(--navy)}
+  .btn.ghost:hover{background:var(--navy);color:var(--white)}
+
+  /* judgment card (output) */
+  .card-wrap{margin-top:26px;display:none}
+  .card-wrap.show{display:block;animation:rise .4s ease}
+  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  #jcard{background:var(--navy);color:var(--white);border-radius:16px;padding:28px 26px 22px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  #jcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--gold)}
+  #jcard .jc-eyebrow{font-family:var(--disp);font-style:italic;color:var(--gold);letter-spacing:2px;font-size:12px}
+  #jcard .jc-title{font-family:var(--serif);font-weight:900;font-size:22px;line-height:1.3;margin:6px 0 4px}
+  #jcard .jc-src{font-size:12px;color:var(--gray);opacity:.8;margin-bottom:16px}
+  #jcard .jc-sec{margin-bottom:15px}
+  #jcard .jc-h{font-size:12px;color:var(--gold);font-weight:700;letter-spacing:1px;margin-bottom:6px;display:flex;align-items:center;gap:7px}
+  #jcard .jc-h::before{content:"";width:14px;height:2px;background:var(--gold)}
+  #jcard .jc-sec ul{list-style:none}
+  #jcard .jc-sec li{font-size:13.5px;line-height:1.7;padding-left:15px;position:relative;color:#EDE7DA}
+  #jcard .jc-sec li::before{content:"▸";position:absolute;left:0;color:var(--gold);font-size:11px}
+  #jcard .jc-mkts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  #jcard .jc-m{background:rgba(255,255,255,.06);border:1px solid rgba(201,168,76,.3);border-radius:9px;padding:10px 11px}
+  #jcard .jc-m .mm{font-family:var(--serif);font-weight:700;color:var(--gold);font-size:14px;margin-bottom:4px}
+  #jcard .jc-m .mt{font-size:12px;color:#EDE7DA;line-height:1.55}
+  #jcard .jc-foot{margin-top:16px;padding-top:12px;border-top:1px solid rgba(201,168,76,.3);
+    display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--gray)}
+  #jcard .jc-foot .brand{font-family:var(--serif);color:var(--white)}
+  #jcard .jc-foot .brand b{color:var(--orange)}
+  .empty-note{color:var(--muted);font-size:13px;text-align:center;padding:8px}
+
+  footer{background:var(--navy);color:var(--gray);text-align:center;padding:22px;font-size:12px;border-top:2px solid var(--gold)}
+  footer .bd{font-family:var(--serif);color:var(--white);font-size:14px;margin-bottom:4px}
+  footer .bd b{color:var(--orange)}
+  footer .motto{color:var(--gold);font-size:11px;letter-spacing:1px;margin-top:6px}
+
+  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--navy);
+    color:var(--white);padding:11px 22px;border-radius:10px;font-size:13.5px;box-shadow:var(--shadow);
+    opacity:0;pointer-events:none;transition:.25s;z-index:100;border:1px solid var(--gold)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  @media(max-width:720px){
+    .two{grid-template-columns:1fr}
+    .mkts{grid-template-columns:1fr}
+    #jcard .jc-mkts{grid-template-columns:1fr}
+    .hero{padding:34px 18px 30px}
+  }
+  @media print{
+    header.top,.hero,.picker,.news textarea,.layer,.gen-bar,.check,footer,.toast{display:none!important}
+    .card-wrap{display:block!important;margin:0}
+    body{background:#fff}
+    #jcard{box-shadow:none;border:1px solid #ccc}
+  }
+</style>
+</head>
+<body>
+<header class="top">
+  <a href="index.html" style="color:var(--gold);text-decoration:none;font-size:13px;flex:none">← 首頁</a>
+  <img id="logo" alt="誠毅傳承" src="data:image/jpeg;base64,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">
+  <div class="wm">熊誠毅<span>｜</span><b>誠毅傳承</b></div>
+  <div class="spacer"></div>
+  <div class="save-hint" id="saveHint">自動儲存中</div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">FINANCIAL NEWS DECODER</div>
+    <h1>財經新聞判讀術</h1>
+    <p class="sub">一則新聞丟進來，照三層拆解，最後生成一張可截圖給客戶或團隊的判讀卡。新聞是線索，不是答案。</p>
+    <div class="flow">
+      <div class="step"><span class="n">01</span> 事實 vs 解讀</div>
+      <span class="arw">→</span>
+      <div class="step"><span class="n">02</span> 找出因果鏈</div>
+      <span class="arw">→</span>
+      <div class="step"><span class="n">03</span> 三大市場連動</div>
+    </div>
+  </div>
+</section>
+
+<main>
+  <div class="picker">
+    <div class="lbl">選一則範例，或自己輸入</div>
+    <div class="chips" id="chips"></div>
+  </div>
+
+  <div class="news">
+    <div class="src"><input id="src" placeholder="來源／日期（例：工商時報 2026.07.02）" style="background:transparent;border:none;color:var(--gold);font-family:var(--disp);font-size:12px;letter-spacing:1px;width:100%;outline:none"></div>
+    <input class="title" id="title" placeholder="在這裡貼上新聞標題…">
+    <textarea class="body" id="body" placeholder="（選填）貼上新聞重點內容，方便邊看邊拆解…"></textarea>
+    <div class="uploadbar">
+      <button class="ubtn" onclick="document.getElementById('fileImg').click()">📷 上傳新聞照片</button>
+      <button class="ubtn" onclick="document.getElementById('fileDoc').click()">📄 上傳檔案抽文字</button>
+      <span class="uinfo">照片可當對照；.txt／.pptx／.docx 會自動把文字帶入</span>
+      <input type="file" id="fileImg" accept="image/*" capture="environment" style="display:none">
+      <input type="file" id="fileDoc" accept=".txt,.pptx,.docx" style="display:none">
+    </div>
+    <div class="thumbwrap" id="thumbwrap">
+      <img id="thumb" alt="新聞照片" onclick="openLightbox()">
+      <div class="tcap">點圖可放大對照 · 內容仍請自行判讀填寫</div>
+    </div>
+  </div>
+
+  <!-- 名詞輔助 -->
+  <div class="assist" id="assist">
+    <div class="ah">🔎 偵測到這些財經名詞</div>
+    <div class="asub">點名詞看白話解釋；下方是依內容建議關注的市場（判斷仍由你填）。</div>
+    <div class="terms" id="assistTerms"></div>
+    <div class="sugg" id="assistSugg"></div>
+    <button class="applybtn" id="applyMkts" onclick="applySuggestedMkts()">套用建議的三個市場欄位</button>
+  </div>
+
+  <!-- Layer 1 -->
+  <div class="layer" id="L1">
+    <div class="head">
+      <div class="badge">①</div>
+      <div><h2>第一層 ｜ 事實 vs 解讀</h2><p>先把「客觀數字」和「專家推測」分開，只根據事實下判斷。</p></div>
+    </div>
+    <div class="hint">💡 事實 = 已經發生、有數字的（漲跌、點位、成交量）。解讀 = 專家的「揣測／預期／可能」。</div>
+    <div class="two">
+      <div class="col fact"><h3>客觀事實（已發生）</h3><div class="box" id="facts"></div></div>
+      <div class="col view"><h3>專家推測／解讀</h3><div class="box" id="views"></div></div>
+    </div>
+  </div>
+
+  <!-- Layer 2 -->
+  <div class="layer chain" id="L2">
+    <div class="head">
+      <div class="badge">②</div>
+      <div><h2>第二層 ｜ 找出因果鏈</h2><p>誰是原因、誰是結果？先找根本驅動因子（通常是利率差／政策差／通膨差）。</p></div>
+    </div>
+    <div class="hint">💡 從「根源」一路推到「結果」。第 1 格放最根本的原因，往下每一格是它導致的下一步。</div>
+    <div id="chain"></div>
+    <button class="addbtn" onclick="addChain('')">＋ 新增一個環節</button>
+  </div>
+
+  <!-- Layer 3 -->
+  <div class="layer" id="L3">
+    <div class="head">
+      <div class="badge">③</div>
+      <div><h2>第三層 ｜ 三大市場連動判斷</h2><p>同一件事會同時影響三個市場，寫下你對每個市場的判斷。</p></div>
+    </div>
+    <div class="hint">💡 市場名稱可自己改（例如：日股／日圓／日債，或 股市／匯率／籌碼）。</div>
+    <div class="mkts" id="mkts"></div>
+  </div>
+
+  <!-- Checklist -->
+  <div class="layer check" id="L4">
+    <div class="head">
+      <div class="badge">✓</div>
+      <div><h2>判斷流程 Checklist</h2><p>下判斷前，逐項確認一次。</p></div>
+    </div>
+    <div id="checks"></div>
+  </div>
+
+  <div class="gen-bar">
+    <button class="btn primary" onclick="genCard()">生成判讀卡</button>
+    <button class="btn ghost" onclick="copyText()">複製文字（貼 LINE）</button>
+    <button class="btn ghost" onclick="window.print()">列印／存 PDF</button>
+    <button class="btn ghost" onclick="clearAll()">清空重來</button>
+  </div>
+
+  <div class="card-wrap" id="cardWrap">
+    <div id="jcard"></div>
+  </div>
+</main>
+
+<footer>
+  <div class="bd">熊誠毅<b>｜誠毅傳承</b></div>
+  <div>財經自學站 ｜ 新聞判讀工作台</div>
+  <div class="motto">◈ 用專業守護家族價值・以誠意延續財富生命 ◈</div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="x" onclick="closeLightbox()">×</button>
+  <img id="lightboxImg" alt="放大檢視">
+</div>
+
+<div id="installBar">
+  <div class="it">把 <b>財經判讀</b> 加到主畫面，離線也能用</div>
+  <button class="yes" onclick="doInstall()">安裝</button>
+  <button class="no" onclick="dismissInstall()">稍後</button>
+</div>
+
+<script>
+"use strict";
+// ── 安全的儲存層（localStorage 不可用時退回記憶體）──
+var mem={};
+var store={
+  get:function(k){try{return localStorage.getItem(k)}catch(e){return mem[k]||null}},
+  set:function(k,v){try{localStorage.setItem(k,v)}catch(e){mem[k]=v}}
+};
+var KEY="cyc_news_decoder_v1";
+
+// ── 市場圖示 ──
+var MICON={"匯率":"¥","日圓":"¥","美元":"$","債市":"$","日債":"$","美債":"$","股市":"▲","日股":"▲","美股":"▲","台股":"▲","籌碼":"◆","原物料":"◆"};
+function iconFor(name){for(var k in MICON){if(name.indexOf(k)>=0)return MICON[k]}return "◈"}
+
+// ── 內建範例（今日新聞，已拆解）──
+var CASES=[
+ {label:"日圓破底 官方7/3干預？",src:"工商時報 A8 2026.07.02",
+  title:"日圓破底　日官方可能7/3進場干預",
+  body:"日圓兌美元7/1收162.84，改寫40年低點。專家揣測日本可能選7/3美股休市、流動性低時出手。分析師指美日利差才是阻礙日圓升值的最大絆腳石。日本是美債最大外國持有國，若拋售美債換匯，恐衝擊美債市場。",
+  facts:["日圓兌美元7/1收162.84，40年新低","美股7/3因獨立紀念日休市，流動性低","日本是美債最大外國持有國"],
+  views:["專家揣測官方可能選7/3出手干預","干預頂多減緩跌勢、難扭轉長期趨勢","應關注干預資金來源"],
+  chain:["美日利差過大","日圓持續貶值創40年新低","進口／生活成本上升","官方可能進場干預（拋美元資產換匯）","若拋售規模大→美債殖利率上升","美股資金成本上升、承壓"],
+  mkts:[{n:"匯率",logic:"利差、央行態度、干預預期",judge:"短期若被干預會急彈，但難改長期貶值趨勢"},
+        {n:"債市",logic:"資金流向、公債供需",judge:"日本若拋美債，殖利率有上行風險"},
+        {n:"股市",logic:"利率成本、風險偏好",judge:"殖利率急升會排擠股市估值，尤其成長股"}]},
+
+ {label:"台股7月開門紅 重返47K",src:"工商時報 A1 2026.07.02",
+  title:"台股7月開門紅　帶量重返47K",
+  body:"台股7/1收47,018點漲893點（1.94%），成交量1.36兆。台積電漲95元收2,505元歷史次高。外資買超323.76億終止連六賣，投信連七買。台指期淨空單增至84,168口創高。新台幣收31.874元近三月新低。",
+  facts:["台股7/1收47,018點漲893點（1.94%），量1.36兆","台積電漲95元收2,505元歷史次高","外資買超323.76億，終止連六賣；投信連七買","台指期淨空單增至84,168口創高","新台幣收31.874元，近三個月新低"],
+  views:["蔡明彰：下半年三情境—樂觀52K／保守回檔／震盪洗盤","凱基：帶量走揚有利挑戰歷史高48,218點","法人：買盤抓大放小集中台積電，漲多股恐獲利了結"],
+  chain:["美伊風險降溫＋台積電法說行情提前發酵","外資終止連六賣、轉買超323.76億","台積電領頭帶量重返47K、回補空方缺口","電子成交比重逾8成，資金集中AI／半導體","須留意買盤集中、漲多股獲利了結賣壓","後市能否延續量能挑戰歷史高48,218點"],
+  mkts:[{n:"股市",logic:"量能、外資動向、類股輪動",judge:"帶量突破偏多，但資金過度集中台積電需留意"},
+        {n:"匯率",logic:"外資匯出入、股利匯出季節",judge:"7月除權息旺季外資領股利匯出，新台幣短線偏貶"},
+        {n:"籌碼",logic:"台指期淨空單、三大法人買賣超",judge:"淨空單創高＝避險升溫，追高宜避免過度追價"}]},
+
+ {label:"日企信心8年最高",src:"工商時報 A8 2026.07.02",
+  title:"日企信心指數勁升　8年最高",
+  body:"日銀短觀：大製造商信心+17升至+22，2018年3月來最高；非製造業+36升至+37，1991年來最高。企業3年/5年通膨預期達2.6%創新高。日經一度飆逾1,600點收70,474.96。日銀6月已升息至31年新高1%。",
+  facts:["大製造商信心+17升至+22，2018年3月來最高","非製造業信心+36升至+37，1991年來最高","企業通膨預期達2.6%，創歷來最高","日經收70,474.96點（漲0.59%）","日銀6月已升息至31年新高的1%"],
+  views:["新家義貴：強勁結果，消除中東戰爭導致衰退擔憂","短觀為年底前再升息提供理由，可能10月","早盤獲利了結使漲幅急縮，市場仍謹慎"],
+  chain:["AI需求＋國內觀光業蓬勃","企業成本轉嫁順利、信心攀升8年高","企業通膨預期升至2.6%創新高","強化日銀進一步升息可能","何時再升息（可能10月）成焦點","升息預期牽動日股、日圓、日債"],
+  mkts:[{n:"日股",logic:"企業獲利、AI類股、升息預期",judge:"信心創高利多，但升息預期易引發獲利了結"},
+        {n:"日圓",logic:"美日利差、升息預期",judge:"升息預期升有助縮小利差，中長期利日圓"},
+        {n:"日債",logic:"利率政策、殖利率走向",judge:"升息＝公債殖利率上行，持債部位承壓"}]},
+
+ {label:"亞歐製造業展韌性",src:"工商時報 A8 2026.07.02",
+  title:"搭AI熱潮　亞歐製造業展韌性",
+  body:"日本6月製造業PMI 54.8連6月擴張；韓國連7月擴張但放緩；歐元區51.4連5月高於50但4個月低點；菲律賓50.9、馬來西亞50.7。AI需求抵消中東戰爭衝擊。投入成本通膨仍在近4年高檔。",
+  facts:["日本6月PMI 54.5升至54.8，連六月擴張","韓國連七月擴張，但出口放緩、增速較5月減","歐元區PMI 51.6降至51.4，仍連五月高於50","菲律賓50.9、馬來西亞回升至50.7","投入成本通膨在近四年高檔"],
+  views:["威廉森：6月擴張為歐元區2022年來最強季度","AI浪潮重塑亞洲經濟格局，成戰爭緩衝","6/17停火前的數據，完整影響尚未反映"],
+  chain:["全球AI熱潮推升晶片、資料中心需求","科技產品強勁需求抵消中東戰爭影響","亞洲（日韓菲馬）製造業普遍擴張","歐元區製造業連五月擴張","投入成本通膨居高，恐擠壓利潤","出口導向經濟體景氣與AI週期綁定"],
+  mkts:[{n:"股市",logic:"AI／半導體、出口概念股",judge:"PMI擴張利多出口與科技股，留意成本侵蝕獲利"},
+        {n:"匯率",logic:"出口暢旺、貿易順差",judge:"製造業擴張支撐出口國貨幣基本面"},
+        {n:"原物料",logic:"投入成本、通膨壓力",judge:"投入成本近4年高檔，價格壓力可能拉抬通膨"}]},
+
+ {label:"7月升息？華許拒透露",src:"工商時報 A1 2026.07.02",
+  title:"7月升息？　華許拒絕透露",
+  body:"Fed主席華許在ECB論壇稱Fed自行掌握政策、拒透露7月是否升息，重申壓回2%。6月ADP小非農增9.8萬人，低於5月12.2萬與預期11萬。年薪年增4.4%。6月裁員降至4萬5,849人創去年12月來最低。",
+  facts:["華許拒透露7月是否升息，重申壓回2%","6月ADP小非農增9.8萬人，低於預期","6月勞工年薪成長維持年增4.4%","6月裁員降至4萬5,849人，創去年12月來最低","就業成長幾乎全來自服務業"],
+  views:["華許主張『不再提供前瞻指引』","認為通膨風險已降，對AI通膨壓力持謹慎","分析師：就業增長放緩，但尚未失速"],
+  chain:["Fed拒絕前瞻指引，7月升息留懸念","小非農增幅低於預期，就業放緩","但裁員創低、通膨風險下降","市場對7月例會不確定性升高","『美元鷹派』與降息預期拉扯","利率路徑牽動美元、美債、美股"],
+  mkts:[{n:"美債",logic:"利率預期、殖利率走向",judge:"升息與否未明，殖利率隨數據與談話劇烈擺盪"},
+        {n:"美元",logic:"利差、Fed政策方向",judge:"鷹派立場撐美元，但就業放緩削弱升息底氣"},
+        {n:"美股",logic:"利率成本、AI資本支出",judge:"利率不確定壓抑估值，AI資本支出仍是支撐"}]}
+];
+
+var CHECKLIST=[
+ {t:"辨真假、輕重",d:"這是已發生的事實，還是市場預期？"},
+ {t:"找根本驅動因子",d:"通常是利率差、政策差、通膨差，而非表面現象"},
+ {t:"問是否可被驗證",d:"找出後續可觀察、可驗證的關鍵事件或數據"},
+ {t:"反推受害／受益方",d:"哪些產業、族群、部位會直接受影響"},
+ {t:"交叉驗證",d:"結論須有至少兩個獨立來源或數據支持"}
+];
+
+// ── state ──
+var S={src:"",title:"",body:"",facts:[""],views:[""],chain:["",""],
+       mkts:[{n:"匯率",logic:"",judge:""},{n:"債市",logic:"",judge:""},{n:"股市",logic:"",judge:""}],
+       checks:[false,false,false,false,false]};
+
+// ── render helpers ──
+function el(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e}
+function esc(s){return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+
+function renderItems(hostId,arr,ph){
+  var host=document.getElementById(hostId);host.innerHTML="";
+  arr.forEach(function(v,i){
+    var row=el("div","itemrow");
+    var inp=el("input");inp.value=v;inp.placeholder=ph;
+    inp.oninput=function(){arr[i]=inp.value;save()};
+    var del=el("button","del","×");del.title="刪除";
+    del.onclick=function(){arr.splice(i,1);if(arr.length===0)arr.push("");renderItems(hostId,arr,ph);save()};
+    row.appendChild(inp);row.appendChild(del);host.appendChild(row);
+  });
+  var add=el("button","addbtn","＋ 新增一項");
+  add.onclick=function(){arr.push("");renderItems(hostId,arr,ph);save();};
+  host.appendChild(add);
+}
+
+function renderChain(){
+  var host=document.getElementById("chain");host.innerHTML="";
+  S.chain.forEach(function(v,i){
+    var row=el("div","chainrow");
+    var num=el("div","num",String(i+1));
+    var inp=el("input");inp.value=v;inp.placeholder=(i===0?"最根本的原因…":"導致的下一步…");
+    inp.oninput=function(){S.chain[i]=inp.value;save()};
+    var del=el("button","del","×");
+    del.onclick=function(){S.chain.splice(i,1);if(S.chain.length===0)S.chain.push("");renderChain();save()};
+    row.appendChild(num);row.appendChild(inp);row.appendChild(del);
+    host.appendChild(row);
+    if(i<S.chain.length-1)host.appendChild(el("div","arrow","▾"));
+  });
+}
+function addChain(v){S.chain.push(v||"");renderChain();save();}
+
+function renderMkts(){
+  var host=document.getElementById("mkts");host.innerHTML="";
+  S.mkts.forEach(function(m,i){
+    var card=el("div","mkt");
+    var top=el("div","m-top");
+    var ic=el("div","m-icon",iconFor(m.n));
+    var name=el("input","m-name");name.value=m.n;
+    name.oninput=function(){m.n=name.value;ic.textContent=iconFor(m.n);save()};
+    top.appendChild(ic);top.appendChild(name);
+    var body=el("div","m-body");
+    var l1=el("label",null,"判斷邏輯");var t1=el("textarea");t1.value=m.logic;t1.placeholder="這市場看什麼？";
+    t1.oninput=function(){m.logic=t1.value;save()};
+    var l2=el("label",null,"我的判斷");var t2=el("textarea");t2.value=m.judge;t2.placeholder="你的結論…";
+    t2.oninput=function(){m.judge=t2.value;save()};
+    body.appendChild(l1);body.appendChild(t1);body.appendChild(l2);body.appendChild(t2);
+    card.appendChild(top);card.appendChild(body);host.appendChild(card);
+  });
+}
+
+function renderChecks(){
+  var host=document.getElementById("checks");host.innerHTML="";
+  CHECKLIST.forEach(function(c,i){
+    var row=el("div","ck"+(S.checks[i]?" on":""));
+    row.innerHTML='<div class="cbox">'+(S.checks[i]?"✓":"")+'</div><div class="ct"><b>'+(i+1)+'. '+c.t+'</b><p>'+c.d+'</p></div>';
+    row.onclick=function(){S.checks[i]=!S.checks[i];renderChecks();save()};
+    host.appendChild(row);
+  });
+}
+
+function renderChips(){
+  var host=document.getElementById("chips");host.innerHTML="";
+  CASES.forEach(function(c,i){
+    var b=el("button","chip",c.label);
+    b.onclick=function(){loadCase(i);setActive(b)};
+    host.appendChild(b);
+  });
+  var blank=el("button","chip blank","＋ 自己輸入");
+  blank.onclick=function(){clearAll();setActive(blank)};
+  host.appendChild(blank);
+}
+function setActive(btn){
+  document.querySelectorAll(".chip").forEach(function(c){c.classList.remove("active")});
+  btn.classList.add("active");
+}
+
+// ── bind fixed fields ──
+function bindTop(){
+  var s=document.getElementById("src"),t=document.getElementById("title"),b=document.getElementById("body");
+  s.value=S.src;t.value=S.title;b.value=S.body;
+  s.oninput=function(){S.src=s.value;save()};
+  t.oninput=function(){S.title=t.value;save()};
+  b.oninput=function(){S.body=b.value;save()};
+}
+
+function renderAll(){
+  bindTop();
+  renderItems("facts",S.facts,"一項客觀事實…");
+  renderItems("views",S.views,"一項專家推測…");
+  renderChain();renderMkts();renderChecks();
+}
+
+// ── load / save ──
+function loadCase(i){
+  var c=CASES[i];
+  S={src:c.src,title:c.title,body:c.body,
+     facts:c.facts.slice(),views:c.views.slice(),chain:c.chain.slice(),
+     mkts:c.mkts.map(function(m){return {n:m.n,logic:m.logic,judge:m.judge}}),
+     checks:[false,false,false,false,false]};
+  renderAll();save();
+  document.getElementById("cardWrap").classList.remove("show");
+  window.scrollTo({top:document.querySelector('.news').offsetTop-70,behavior:"smooth"});
+}
+function clearAll(){
+  S={src:"",title:"",body:"",facts:[""],views:[""],chain:["",""],
+     mkts:[{n:"匯率",logic:"",judge:""},{n:"債市",logic:"",judge:""},{n:"股市",logic:"",judge:""}],
+     checks:[false,false,false,false,false]};
+  renderAll();save();document.getElementById("cardWrap").classList.remove("show");
+}
+var saveT;
+function save(){
+  store.set(KEY,JSON.stringify(S));
+  var h=document.getElementById("saveHint");h.textContent="已儲存 ✓";
+  clearTimeout(saveT);saveT=setTimeout(function(){h.textContent="自動儲存中"},1200);
+}
+function restore(){
+  var raw=store.get(KEY);
+  if(raw){try{var o=JSON.parse(raw);if(o&&o.mkts&&o.facts){S=o;
+    if(!S.chain||!S.chain.length)S.chain=["",""];
+    if(!S.checks)S.checks=[false,false,false,false,false];}}catch(e){}}
+}
+
+// ── generate judgment card ──
+function nonEmpty(a){return (a||[]).filter(function(x){return (x||"").trim()!==""})}
+function genCard(){
+  var facts=nonEmpty(S.facts),views=nonEmpty(S.views),chain=nonEmpty(S.chain);
+  var mkts=S.mkts.filter(function(m){return (m.judge||"").trim()!==""});
+  var title=S.title.trim()||"（未命名新聞）";
+  var h='';
+  h+='<div class="jc-eyebrow">誠毅傳承 · 財經判讀卡</div>';
+  h+='<div class="jc-title">'+esc(title)+'</div>';
+  if(S.src.trim())h+='<div class="jc-src">'+esc(S.src)+'</div>';
+
+  if(facts.length){h+='<div class="jc-sec"><div class="jc-h">關鍵事實</div><ul>'+
+    facts.map(function(f){return '<li>'+esc(f)+'</li>'}).join('')+'</ul></div>';}
+
+  if(chain.length){h+='<div class="jc-sec"><div class="jc-h">因果鏈</div><ul><li>'+
+    chain.map(function(c){return esc(c)}).join(' → ')+'</li></ul></div>';}
+
+  if(mkts.length){h+='<div class="jc-sec"><div class="jc-h">三大市場判斷</div><div class="jc-mkts">'+
+    mkts.map(function(m){return '<div class="jc-m"><div class="mm">'+esc(m.n)+'</div><div class="mt">'+esc(m.judge)+'</div></div>'}).join('')+
+    '</div></div>';}
+
+  if(!facts.length&&!chain.length&&!mkts.length){
+    h+='<div class="empty-note" style="color:#EDE7DA">先填一些內容再生成判讀卡吧。</div>';}
+
+  var done=S.checks.filter(Boolean).length;
+  h+='<div class="jc-foot"><span class="brand">熊誠毅<b>｜誠毅傳承</b></span>'+
+     '<span>Checklist '+done+'/5 · '+new Date().toLocaleDateString("zh-TW")+'</span></div>';
+
+  document.getElementById("jcard").innerHTML=h;
+  document.getElementById("cardWrap").classList.add("show");
+  window.scrollTo({top:document.getElementById("cardWrap").offsetTop-40,behavior:"smooth"});
+}
+
+// ── copy as text ──
+function copyText(){
+  var facts=nonEmpty(S.facts),views=nonEmpty(S.views),chain=nonEmpty(S.chain);
+  var mkts=S.mkts.filter(function(m){return (m.judge||"").trim()!==""});
+  var L=[];
+  L.push("【誠毅傳承·財經判讀】");
+  L.push(S.title.trim()||"（未命名）");
+  if(S.src.trim())L.push(S.src.trim());
+  L.push("");
+  if(facts.length){L.push("■ 關鍵事實");facts.forEach(function(f){L.push("・"+f)});L.push("")}
+  if(views.length){L.push("■ 專家解讀");views.forEach(function(v){L.push("・"+v)});L.push("")}
+  if(chain.length){L.push("■ 因果鏈");L.push(chain.join(" → "));L.push("")}
+  if(mkts.length){L.push("■ 三大市場判斷");mkts.forEach(function(m){L.push("・"+m.n+"："+m.judge)});L.push("")}
+  L.push("— 熊誠毅｜誠毅傳承");
+  var txt=L.join("\n");
+  var done=function(){toast("已複製，可直接貼到 LINE")};
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(done,function(){fallbackCopy(txt);done()});
+  }else{fallbackCopy(txt);done()}
+}
+function fallbackCopy(txt){
+  var ta=document.createElement("textarea");ta.value=txt;ta.style.position="fixed";ta.style.opacity="0";
+  document.body.appendChild(ta);ta.select();try{document.execCommand("copy")}catch(e){}
+  document.body.removeChild(ta);
+}
+function toast(msg){var t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");
+  setTimeout(function(){t.classList.remove("show")},2000)}
+
+// ══════════════════════════════════════════
+//  名詞輔助（離線關鍵字掃描 → 連觀念、建議市場）
+// ══════════════════════════════════════════
+// 名詞庫：關鍵字 → {白話, 影響的市場}
+var TERMS=[
+ {k:["利率","升息","降息"],name:"利率／升降息",tip:"借錢的價格；升息壓通膨、降息救景氣"},
+ {k:["通膨","CPI","物價","通膨預期"],name:"通膨",tip:"物價上漲、錢變薄；太高央行傾向升息"},
+ {k:["利差"],name:"利差",tip:"兩國利率高低差，錢往高利率流，牽動匯率"},
+ {k:["匯率","匯價","貶","升值","貶值","日圓","新台幣","美元"],name:"匯率",tip:"兩種錢的兌換比例；貶值利出口、貴進口"},
+ {k:["PMI","採購經理"],name:"PMI",tip:"工廠信心溫度計，50為榮枯線，領先指標"},
+ {k:["非農","ADP","就業","失業"],name:"就業數據",tip:"經濟健康的體檢；就業強→可能升息"},
+ {k:["短觀","tankan","信心指數"],name:"企業信心",tip:"企業對景氣的信心，影響央行決策"},
+ {k:["殖利率"],name:"殖利率",tip:"債券報酬率，與價格反向；急升排擠股市估值"},
+ {k:["公債","美債","國債"],name:"公債",tip:"借錢給政府的借據；大量拋售衝擊全球債市"},
+ {k:["外資","買超","賣超"],name:"外資買賣超",tip:"外國大戶動向，由賣轉買常是轉強訊號"},
+ {k:["成交量","帶量","量能"],name:"成交量",tip:"市場熱度；上漲有量才健康"},
+ {k:["除權息","股利"],name:"除權息",tip:"公司發紅包；外資領股利匯出→匯率壓力"},
+ {k:["台指期","淨空單","期貨"],name:"期貨籌碼",tip:"淨空單創高＝避險升溫，追高宜謹慎"},
+ {k:["Fed","聯準會","央行","日銀","華許","降息","鷹派","鴿派"],name:"央行",tip:"錢的總管；鷹派偏升息、鴿派偏降息"},
+ {k:["GDP","經濟成長","衰退"],name:"GDP",tip:"一國一年賺多少；衰退常指連兩季負成長"}
+];
+
+// 情境 → 建議三市場（依偵測到的關鍵字）
+function suggestMarkets(text){
+  var t=text;
+  var has=function(){for(var i=0;i<arguments.length;i++){if(t.indexOf(arguments[i])>=0)return true}return false};
+  if(has("日圓","日銀","日經","日本","短觀","tankan"))
+    return {label:"這則偏日本主題，建議看：", mkts:["日股","日圓","日債"]};
+  if(has("Fed","聯準會","華許","美股","美債","非農","ADP","美元"))
+    return {label:"這則偏美國／Fed 主題，建議看：", mkts:["美債","美元","美股"]};
+  if(has("台股","台積電","加權","外資","台指期"))
+    return {label:"這則偏台股主題，建議看：", mkts:["股市","匯率","籌碼"]};
+  if(has("PMI","製造業","出口","歐元區","韓國"))
+    return {label:"這則偏景氣／製造業主題，建議看：", mkts:["股市","匯率","原物料"]};
+  return {label:"通用建議，可依內容自行調整：", mkts:["匯率","債市","股市"]};
+}
+
+var lastSuggest=null;
+function runAssist(){
+  var text=(S.title+" "+S.body);
+  if(text.trim().length<4){document.getElementById("assist").classList.remove("show");return;}
+  var found=[];
+  TERMS.forEach(function(term){
+    for(var i=0;i<term.k.length;i++){
+      if(text.toLowerCase().indexOf(term.k[i].toLowerCase())>=0){found.push(term);break;}
+    }
+  });
+  var box=document.getElementById("assist");
+  if(!found.length){box.classList.remove("show");return;}
+  var th=document.getElementById("assistTerms");th.innerHTML="";
+  found.forEach(function(f){
+    var chip=el("span","tchip","<b>"+esc(f.name)+"</b>："+esc(f.tip));
+    th.appendChild(chip);
+  });
+  var sg=suggestMarkets(text);lastSuggest=sg;
+  document.getElementById("assistSugg").innerHTML="<b>"+esc(sg.label)+"</b> "+sg.mkts.join("　·　");
+  box.classList.add("show");
+}
+function applySuggestedMkts(){
+  if(!lastSuggest)return;
+  lastSuggest.mkts.forEach(function(n,i){if(S.mkts[i])S.mkts[i].n=n;});
+  renderMkts();save();toast("已套用建議市場欄位");
+}
+
+// 掛到輸入事件（不動原本 save 流程）
+["title","body"].forEach(function(id){
+  var e=document.getElementById(id);
+  var prev=e.oninput;
+  e.oninput=function(ev){if(prev)prev.call(e,ev);runAssist();};
+});
+
+// ══════════════════════════════════════════
+//  上傳：照片對照 + 檔案抽文字
+// ══════════════════════════════════════════
+document.getElementById("fileImg").onchange=function(e){
+  var f=e.target.files[0];if(!f)return;
+  var r=new FileReader();
+  r.onload=function(){
+    document.getElementById("thumb").src=r.result;
+    document.getElementById("thumbwrap").classList.add("show");
+    toast("照片已載入，可點圖放大對照");
+  };
+  r.readAsDataURL(f);
+  e.target.value="";
+};
+
+document.getElementById("fileDoc").onchange=function(e){
+  var f=e.target.files[0];if(!f)return;
+  var name=f.name.toLowerCase();
+  if(name.endsWith(".txt")){
+    var r=new FileReader();
+    r.onload=function(){fillFromText(r.result,f.name)};
+    r.readAsText(f);
+  }else if(name.endsWith(".pptx")||name.endsWith(".docx")){
+    extractZipText(f,name.endsWith(".pptx")?"pptx":"docx");
+  }else{toast("目前支援 .txt／.pptx／.docx")}
+  e.target.value="";
+};
+
+function fillFromText(txt,fname){
+  txt=(txt||"").replace(/\s+\n/g,"\n").trim();
+  if(!txt){toast("檔案裡沒抓到文字");return;}
+  var lines=txt.split(/\n+/).filter(function(l){return l.trim()});
+  // 第一行當標題（若標題還空著）
+  if(!S.title.trim()&&lines.length){S.title=lines[0].slice(0,60);}
+  S.body=txt.slice(0,2000);
+  bindTop();save();runAssist();
+  toast("已從「"+fname+"」帶入文字");
+}
+
+// 用 JSZip 解 pptx/docx（zip內XML抽文字）。離線時若未快取會提示改貼文字。
+function extractZipText(file,kind){
+  toast("讀取中…");
+  loadJSZip(function(ok){
+    if(!ok){toast("離線且未載過解析元件，請改貼文字或連網一次");return;}
+    file.arrayBuffer().then(function(buf){
+      window.JSZip.loadAsync(buf).then(function(zip){
+        var targets=[];
+        zip.forEach(function(path){
+          if(kind==="pptx"&&/^ppt\/slides\/slide\d+\.xml$/.test(path))targets.push(path);
+          if(kind==="docx"&&path==="word/document.xml")targets.push(path);
+        });
+        if(kind==="pptx")targets.sort(function(a,b){
+          var na=+a.replace(/\D/g,""),nb=+b.replace(/\D/g,"");return na-nb;});
+        if(!targets.length){toast("檔案裡找不到文字內容");return;}
+        Promise.all(targets.map(function(p){return zip.file(p).async("string")})).then(function(xmls){
+          var text=xmls.map(function(xml){
+            // 抓 <a:t>…</a:t>(pptx) 或 <w:t>…</w:t>(docx)
+            var m=xml.match(/<(a|w):t[^>]*>([\s\S]*?)<\/(a|w):t>/g)||[];
+            return m.map(function(s){return s.replace(/<[^>]+>/g,"")}).join(kind==="pptx"?" ":"");
+          }).join("\n");
+          text=text.replace(/&amp;/g,"&").replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&#160;/g," ");
+          if(text.trim())fillFromText(text,file.name);
+          else toast("沒抽到文字，可能是純圖片檔");
+        });
+      }).catch(function(){toast("解析失敗，請確認是有效的 .pptx／.docx")});
+    });
+  });
+}
+
+var _jszipLoading=false;
+function loadJSZip(cb){
+  if(window.JSZip)return cb(true);
+  if(_jszipLoading){var iv=setInterval(function(){if(window.JSZip){clearInterval(iv);cb(true)}},200);
+    setTimeout(function(){clearInterval(iv);if(!window.JSZip)cb(false)},6000);return;}
+  _jszipLoading=true;
+  var s=document.createElement("script");
+  s.src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js";
+  s.onload=function(){cb(true)};
+  s.onerror=function(){cb(false)};
+  document.head.appendChild(s);
+}
+
+// lightbox
+function openLightbox(){
+  var src=document.getElementById("thumb").src;if(!src)return;
+  document.getElementById("lightboxImg").src=src;
+  document.getElementById("lightbox").classList.add("show");
+}
+function closeLightbox(){document.getElementById("lightbox").classList.remove("show")}
+
+// ══════════════════════════════════════════
+//  PWA：註冊 service worker + 安裝提示
+// ══════════════════════════════════════════
+if("serviceWorker" in navigator){
+  window.addEventListener("load",function(){
+    navigator.serviceWorker.register("sw.js").catch(function(){});
+  });
+}
+var deferredPrompt=null;
+window.addEventListener("beforeinstallprompt",function(e){
+  e.preventDefault();deferredPrompt=e;
+  if(store.get("cyc_install_dismiss")!=="1")
+    document.getElementById("installBar").classList.add("show");
+});
+function doInstall(){
+  document.getElementById("installBar").classList.remove("show");
+  if(deferredPrompt){deferredPrompt.prompt();deferredPrompt=null;}
+}
+function dismissInstall(){
+  document.getElementById("installBar").classList.remove("show");
+  store.set("cyc_install_dismiss","1");
+}
+
+// ── init ──
+restore();renderChips();renderAll();runAssist();
+</script>
+</body>
+</html>
