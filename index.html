@@ -298,11 +298,11 @@ var store={get:function(k){try{return localStorage.getItem(k)}catch(e){return me
 
 // 教學簡報（檔名即實際輸出檔）
 var DECKS=[
-  {id:"method",f:"財經新聞判讀術_教學簡報.pptx",t:"財經新聞判讀術（方法教學）",s:"三層拆解法總論"},
-  {id:"twstock",f:"財經判讀_台股重返47K_教學簡報.pptx",t:"台股7月開門紅 帶量重返47K",s:"工商時報 A1 · 案例"},
-  {id:"tankan",f:"財經判讀_日企信心8年最高_教學簡報.pptx",t:"日企信心指數勁升 8年最高",s:"工商時報 A8 · 案例"},
-  {id:"pmi",f:"財經判讀_亞歐製造業PMI_教學簡報.pptx",t:"搭AI熱潮 亞歐製造業展韌性",s:"工商時報 A8 · 案例"},
-  {id:"fed",f:"財經判讀_華許7月升息_教學簡報.pptx",t:"7月升息？華許拒絕透露",s:"工商時報 A1 · 案例"}
+  {id:"method",file:"deck-method.pptx",dl:"財經新聞判讀術_教學簡報.pptx",t:"財經新聞判讀術（方法教學）",s:"三層拆解法總論"},
+  {id:"twstock",file:"deck-twstock.pptx",dl:"財經判讀_台股重返47K_教學簡報.pptx",t:"台股7月開門紅 帶量重返47K",s:"工商時報 A1 · 案例"},
+  {id:"tankan",file:"deck-tankan.pptx",dl:"財經判讀_日企信心8年最高_教學簡報.pptx",t:"日企信心指數勁升 8年最高",s:"工商時報 A8 · 案例"},
+  {id:"pmi",file:"deck-pmi.pptx",dl:"財經判讀_亞歐製造業PMI_教學簡報.pptx",t:"搭AI熱潮 亞歐製造業展韌性",s:"工商時報 A8 · 案例"},
+  {id:"fed",file:"deck-fed.pptx",dl:"財經判讀_華許7月升息_教學簡報.pptx",t:"7月升息？華許拒絕透露",s:"工商時報 A1 · 案例"}
 ];
 var FUTURE=[
   {t:"AI 自動判讀",d:"上傳新聞照片，自動 OCR 並生成三層分析。",b:"規劃中"}
@@ -318,7 +318,7 @@ function el(t,c,h){var e=document.createElement(t);if(c)e.className=c;if(h!=null
       '<div class="dtxt"><b>'+d.t+'</b><small>'+d.s+'</small></div>'+
       '<div class="dacts">'+
         '<a class="mread" href="read.html?d='+d.id+'">📱 手機閱讀</a>'+
-        '<a class="pdl" href="'+encodeURI(d.f)+'" download="'+d.f+'">下載 PPT ↓</a>'+
+        '<a class="pdl" href="'+d.file+'" download="'+d.dl+'">下載 PPT ↓</a>'+
       '</div>';
     g.appendChild(card);
   });
