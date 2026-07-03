@@ -6,6 +6,18 @@
 <meta name="theme-color" content="#1B2A4A">
 <title>誠毅傳承 · 財經自學站｜給小白的財經入門</title>
 <meta name="description" content="從看懂名詞到判讀市場——觀念小卡＋新聞判讀工具，一站搞定。">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="誠毅傳承 · 財經自學站">
+<meta property="og:title" content="誠毅傳承 · 財經自學站">
+<meta property="og:description" content="看懂名詞、判讀新聞、對客戶說得出口——給小白的財經入門一站搞定。">
+<meta property="og:image" content="https://jennyih0227-stack.github.io/finance/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://jennyih0227-stack.github.io/finance/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="誠毅傳承 · 財經自學站">
+<meta name="twitter:description" content="看懂名詞、判讀新聞、對客戶說得出口——給小白的財經入門一站搞定。">
+<meta name="twitter:image" content="https://jennyih0227-stack.github.io/finance/og-cover.png">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -174,6 +186,7 @@
   <div class="wm">熊誠毅<span>｜</span><b>誠毅傳承</b></div>
   <div class="spacer"></div>
   <a class="navlink" href="cards.html">觀念小卡</a>
+  <a class="navlink" href="plan.html">投資觀念</a>
   <a class="navlink" href="decode.html">判讀工具</a>
   <a class="navlink" href="talk.html">客戶講稿</a>
   <a class="navlink" href="report.html">每日速報</a>
@@ -213,7 +226,7 @@
         <h3>財經觀念小卡</h3>
         <div class="en">Economic Literacy Cards</div>
         <p>看不懂新聞裡的名詞？翻牌用白話＋生活比喻秒懂，還告訴你它對市場代表什麼。</p>
-        <div class="feats"><span>22 張卡</span><span>6 分類</span><span>可搜尋</span></div>
+        <div class="feats"><span>30 張卡</span><span>7 分類</span><span>可搜尋</span></div>
         <span class="go">認名詞 →</span>
       </a>
 
@@ -247,6 +260,16 @@
         <span class="go">對客戶說 →</span>
       </a>
 
+      <a class="tcard" href="plan.html">
+        <span class="tbadge">觀念</span>
+        <div class="tic">📈</div>
+        <h3>長期投資與退休現金流</h3>
+        <div class="en">Investing &amp; Retirement</div>
+        <p>定期定額、月現金流撥回、資產配置、大小水庫投資法。客戶白話版＋業務教學版雙模式切換。</p>
+        <div class="feats"><span>4 大觀念</span><span>雙模式</span><span>含話術</span></div>
+        <span class="go">看觀念 →</span>
+      </a>
+
       <a class="tcard" href="report.html">
         <span class="tbadge">應用</span>
         <div class="tic">📰</div>
@@ -267,6 +290,33 @@
     <div class="decks" id="deckGrid"></div>
   </div>
 
+  <!-- AI 工具設定 -->
+  <div class="section" id="aitools">
+    <div class="eyebrow">AI SETUP · AI 工具設定</div>
+    <h2>把判讀方法裝進你的 AI</h2>
+    <p class="desc">用 Gemini 或 NotebookLM 幫你判讀新聞、生成簡報——照著設定，貼上就能用。</p>
+    <div class="tgrid">
+      <a class="tcard" href="gem.html">
+        <span class="tbadge">Gemini</span>
+        <div class="tic">✨</div>
+        <h3>Gemini Gem 設定</h3>
+        <div class="en">Auto News Decoder</div>
+        <p>把三層拆解法裝進 Gemini。設定一次，之後貼新聞或拍照就自動判讀。附一鍵複製提示詞。</p>
+        <div class="feats"><span>自動判讀</span><span>可讀圖</span><span>複製即用</span></div>
+        <span class="go">開始設定 →</span>
+      </a>
+      <a class="tcard" href="notebooklm.html">
+        <span class="tbadge">NotebookLM</span>
+        <div class="tic">📑</div>
+        <h3>NotebookLM 簡報</h3>
+        <div class="en">Slide Generator</div>
+        <p>把財經簡報丟進 NotebookLM 當來源，用提示詞生成三層判讀簡報，再匯出套 Logo。</p>
+        <div class="feats"><span>生成簡報</span><span>可匯出PPTX</span></div>
+        <span class="go">開始設定 →</span>
+      </a>
+    </div>
+  </div>
+
   <!-- 預留未來擴充 -->
   <div class="section">
     <div class="eyebrow">COMING SOON</div>
@@ -282,6 +332,11 @@
   <div>財經自學站 ｜ 給小白的財經入門</div>
   <div class="contact">規劃顧問：熊誠毅　·　Tel〔電話〕　·　LINE〔ID〕</div>
   <div class="motto">◈ 用專業守護家族價值・以誠意延續財富生命 ◈</div>
+  <div style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(201,168,76,.25)">
+    <a href="disclaimer.html" style="color:var(--gray);font-size:12px">免責聲明</a>
+    <span style="color:rgba(201,168,76,.4);margin:0 8px">·</span>
+    <a href="decode-ai.html" style="color:var(--gold);font-size:12px;opacity:.85">🔒 AI 自動判讀（個人版·需自備金鑰）</a>
+  </div>
 </footer>
 
 <div id="installBar">

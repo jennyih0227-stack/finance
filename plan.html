@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1B2A4A">
+<title>長期投資與退休現金流 · 觀念站 ｜ 誠毅傳承</title>
+<meta name="description" content="定期定額長期投資、退休月現金流撥回、資產配置、大小水庫投資法——一頁看懂。">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="誠毅傳承 · 財經自學站">
+<meta property="og:title" content="長期投資與退休現金流 · 觀念站">
+<meta property="og:description" content="定期定額、月現金流撥回、資產配置、大小水庫投資法——客戶白話＋業務教學雙模式。">
+<meta property="og:image" content="https://jennyih0227-stack.github.io/finance/og-cover.png">
+<meta property="og:url" content="https://jennyih0227-stack.github.io/finance/plan.html">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="財經自學站">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@600;700;900&family=Playfair+Display:ital,wght@0,600;0,800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1B2A4A; --navy-l:#2E4A7A; --gold:#C9A84C; --gold-d:#A07830;
+    --cream:#FAF6EE; --gray:#E8E0D0; --ink:#333; --muted:#8a8577; --white:#fff; --orange:#D4711E;
+    --serif:"Noto Serif TC",serif; --sans:"Noto Sans TC",sans-serif; --disp:"Playfair Display",serif;
+    --shadow:0 8px 28px rgba(27,42,74,.14); --shadow-sm:0 3px 12px rgba(27,42,74,.07);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.75;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:var(--gold);color:var(--navy)}
+  a{color:inherit;text-decoration:none}
+
+  header.top{position:sticky;top:0;z-index:50;background:var(--navy);color:#fff;display:flex;align-items:center;
+    gap:10px;padding:10px 14px;border-bottom:2px solid var(--gold);padding-top:calc(10px + env(safe-area-inset-top))}
+  header.top a.home{color:var(--gold);font-size:13px;flex:none}
+  header.top .wm{font-family:var(--serif);font-weight:700;font-size:14px;flex:1;text-align:center}
+  header.top .wm b{color:var(--orange)}
+  .modeswitch{display:flex;background:rgba(255,255,255,.08);border:1px solid rgba(201,168,76,.4);border-radius:999px;overflow:hidden;flex:none}
+  .modeswitch button{border:none;background:transparent;color:var(--gray);font-size:12px;padding:6px 11px;cursor:pointer;font-family:var(--sans)}
+  .modeswitch button.on{background:var(--gold);color:var(--navy);font-weight:700}
+
+  /* hero */
+  .hero{background:linear-gradient(140deg,var(--navy) 0%,var(--navy-l) 100%);color:#fff;
+    padding:44px 20px 48px;position:relative;overflow:hidden;text-align:center}
+  .hero .ring{position:absolute;border:1px solid rgba(201,168,76,.18);border-radius:50%;pointer-events:none}
+  .hero .ring.a{width:280px;height:280px;right:-80px;top:-80px}
+  .hero .ring.b{width:180px;height:180px;left:-50px;bottom:-60px;border-color:rgba(201,168,76,.12)}
+  .hero .inner{position:relative;z-index:1;max-width:640px;margin:0 auto}
+  .hero .eyebrow{font-family:var(--disp);font-style:italic;color:var(--gold);letter-spacing:2px;font-size:13px;margin-bottom:10px}
+  .hero h1{font-family:var(--serif);font-weight:900;font-size:clamp(24px,5.5vw,34px);line-height:1.3;letter-spacing:.5px}
+  .hero .lead{margin-top:12px;color:var(--gray);font-size:14px;line-height:1.8}
+
+  /* nav chips */
+  .jump{background:var(--cream);position:sticky;top:calc(46px + env(safe-area-inset-top));z-index:40;
+    padding:10px 12px;box-shadow:0 6px 12px -9px rgba(27,42,74,.25)}
+  .jump .row{display:flex;gap:7px;overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:640px;margin:0 auto}
+  .jump .row::-webkit-scrollbar{height:0}
+  .jchip{white-space:nowrap;border:1px solid var(--gray);background:#fff;color:var(--navy);border-radius:999px;
+    padding:7px 14px;font-size:12.5px;cursor:pointer;flex:none;transition:.15s;font-family:var(--sans)}
+  .jchip:hover{border-color:var(--gold)}
+
+  main{max-width:640px;margin:0 auto;padding:20px 14px 60px}
+
+  .topic{background:#fff;border:1px solid var(--gray);border-radius:18px;padding:24px 20px;margin-bottom:20px;
+    box-shadow:var(--shadow-sm);scroll-margin-top:110px}
+  .topic .kicker{font-family:var(--disp);font-style:italic;color:var(--gold-d);letter-spacing:1.5px;font-size:12px}
+  .topic h2{font-family:var(--serif);font-weight:900;color:var(--navy);font-size:23px;line-height:1.3;margin:4px 0 2px;
+    display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .topic h2 .no{font-family:var(--disp);font-weight:800;color:var(--gold);font-size:24px;flex:none}
+  .topic .en{color:var(--muted);font-size:12.5px;font-family:var(--disp);letter-spacing:1px;margin-bottom:14px}
+
+  /* one-liner + analogy */
+  .oneline{background:linear-gradient(135deg,var(--navy),var(--navy-l));color:#fff;border-radius:12px;
+    padding:14px 16px;margin-bottom:12px}
+  .oneline .lb{font-size:11px;color:var(--gold);font-weight:700;letter-spacing:.5px}
+  .oneline p{font-size:16px;font-weight:700;line-height:1.55;margin-top:3px}
+  .analogy{border:1px solid var(--gray);background:var(--cream);border-radius:12px;padding:13px 15px;margin-bottom:14px}
+  .analogy .lb{font-size:11px;color:var(--gold-d);font-weight:700}
+  .analogy p{font-size:14.5px;line-height:1.65;margin-top:3px}
+  .analogy .emo{font-size:15px;margin-right:4px}
+
+  /* point list */
+  .points{margin-bottom:6px}
+  .points .pt{display:flex;gap:11px;align-items:flex-start;margin-bottom:10px}
+  .points .pn{flex:none;width:26px;height:26px;border-radius:50%;background:var(--navy);color:var(--gold);
+    font-family:var(--disp);font-weight:800;font-size:13px;display:grid;place-items:center;margin-top:1px}
+  .points .ptx{flex:1;font-size:14px;line-height:1.6}
+  .points .ptx b{color:var(--navy)}
+
+  /* signal box */
+  .signal{display:flex;gap:10px;align-items:flex-start;border:1px dashed var(--gold-d);border-radius:10px;
+    padding:11px 13px;margin-top:12px;background:rgba(201,168,76,.06)}
+  .signal .si{flex:none;font-size:16px}
+  .signal .st{font-size:13.5px;line-height:1.6}
+  .signal .st b{color:var(--gold-d)}
+
+  /* teach-only block */
+  .teach{display:none;margin-top:14px;border-top:1px dashed var(--gray);padding-top:14px}
+  body.mode-teach .teach{display:block}
+  .teach .th{font-family:var(--serif);font-weight:700;color:var(--orange);font-size:14px;display:flex;align-items:center;gap:7px;margin-bottom:8px}
+  .teach .th::before{content:"🎯";font-size:14px}
+  .script{border-left:3px solid var(--orange);background:#fff;border:1px solid var(--gray);border-left:3px solid var(--orange);
+    border-radius:8px;padding:11px 13px;margin-bottom:9px}
+  .script .who{font-size:11px;font-weight:700;color:var(--orange);letter-spacing:.5px}
+  .script p{font-size:13.5px;line-height:1.65;margin-top:3px;color:var(--ink)}
+  .kohint{font-size:12.5px;color:var(--muted);line-height:1.6;margin-top:8px}
+  .kohint b{color:var(--navy)}
+
+  /* client-only note */
+  .clientnote{display:block}
+  body.mode-teach .clientnote{display:none}
+
+  .foot{text-align:center;color:var(--muted);font-size:12px;padding:16px 0 4px;line-height:1.7}
+  .foot b{color:var(--gold-d)}
+  .disc{max-width:640px;margin:0 auto;padding:0 14px 40px}
+  .disc .box{background:#fff;border:1px solid var(--gray);border-radius:12px;padding:14px 16px;font-size:11.5px;color:var(--muted);line-height:1.7}
+  .disc .box b{color:var(--navy)}
+</style>
+</head>
+<body class="mode-client">
+
+<header class="top">
+  <a class="home" href="index.html">← 首頁</a>
+  <div class="wm">誠<b>毅</b>傳承 · 觀念站</div>
+  <div class="modeswitch">
+    <button id="mClient" class="on" onclick="setMode('client')">客戶版</button>
+    <button id="mTeach" onclick="setMode('teach')">教學版</button>
+  </div>
+</header>
+
+<section class="hero">
+  <span class="ring a"></span><span class="ring b"></span>
+  <div class="inner">
+    <div class="eyebrow">Long-Term Investing &amp; Retirement Cashflow</div>
+    <h1>把資產養大，退休穩穩領</h1>
+    <p class="lead">定期定額長期投資 · 退休月現金流撥回 · 資產配置 · 大小水庫投資法<br>四個觀念，一頁看懂。切換上方按鈕，可看客戶白話版或業務教學版。</p>
+  </div>
+</section>
+
+<nav class="jump">
+  <div class="row">
+    <button class="jchip" onclick="go('t1')">① 定期定額長期投資</button>
+    <button class="jchip" onclick="go('t2')">② 退休月現金流撥回</button>
+    <button class="jchip" onclick="go('t3')">③ 資產配置</button>
+    <button class="jchip" onclick="go('t4')">④ 大小水庫投資法</button>
+  </div>
+</nav>
+
+<main>
+
+<!-- ① 定期定額長期投資 -->
+<section class="topic" id="t1">
+  <div class="kicker">Concept 01</div>
+  <h2><span class="no">①</span>定期定額，長期投資</h2>
+  <div class="en">Dollar-Cost Averaging &amp; Long-Term Investing</div>
+
+  <div class="oneline">
+    <div class="lb">一句話</div>
+    <p>每月固定投入、不猜高低點，讓時間與複利替你把資產養大。</p>
+  </div>
+
+  <div class="analogy">
+    <div class="lb">生活比喻</div>
+    <p><span class="emo">🌳</span>像每個月固定買同一種水果——貴的時候買得少、便宜時買得多，長期把平均成本壓平；又像種樹，前幾年不起眼，十年後樹蔭遮天。</p>
+  </div>
+
+  <div class="points">
+    <div class="pt"><div class="pn">1</div><div class="ptx"><b>平均成本法</b>：分批進場，把「買貴」的風險攤平，不用煩惱進場時機。</div></div>
+    <div class="pt"><div class="pn">2</div><div class="ptx"><b>紀律取代情緒</b>：市場漲跌照樣扣款，避開「追高殺低」這個散戶最大的敵人。</div></div>
+    <div class="pt"><div class="pn">3</div><div class="ptx"><b>複利效應</b>：報酬會再生報酬，如同滾雪球，威力全在後段——越早開始越吃香。</div></div>
+    <div class="pt"><div class="pn">4</div><div class="ptx"><b>時間就是朋友</b>：拉長持有期間，短期波動會被稀釋，勝率隨時間提高。</div></div>
+  </div>
+
+  <div class="signal">
+    <div class="si">💡</div>
+    <div class="st">重點不是<b>買在最低點</b>，而是<b>持續在場</b>。72法則口訣：72÷報酬率＝資產翻倍所需年數（例：年報酬6%，約12年翻倍）。</div>
+  </div>
+
+  <div class="clientnote"></div>
+
+  <div class="teach">
+    <div class="th">業務教學：話術與異議處理</div>
+    <div class="script"><div class="who">切入</div><p>「您有沒有這種經驗——想投資，但每次都在等『更便宜』的時候進場，結果一等就是好幾年？定期定額的好處，就是把『猜時機』這件最難的事拿掉。」</p></div>
+    <div class="script"><div class="who">異議：現在股市這麼高，等跌再買</div><p>「這正是定期定額要解決的問題。沒有人能準確猜到高低點，連專業經理人都很難。與其等一個不知道會不會來的低點，不如現在開始、每月固定扣——高檔買少、低檔買多，時間會幫您把成本攤平。」</p></div>
+    <div class="script"><div class="who">異議：我怕套牢</div><p>「短期帳面波動一定會有，但這是長期投資的『過路費』，不是路障。真正的風險不是波動，是您因為害怕而提早離場、或根本沒開始。能抱得住的人，才拿得到時間的紅利。」</p></div>
+    <div class="kohint"><b>KGI 商品連結：</b>美元增額終身壽（美利成臻）＝保額逐年遞增的「強迫儲蓄＋複利」載體，適合對接「長期、紀律、複利」這組觀念，兼顧儲蓄與傳承。</div>
+  </div>
+</section>
+
+<!-- ② 退休月現金流撥回 -->
+<section class="topic" id="t2">
+  <div class="kicker">Concept 02</div>
+  <h2><span class="no">②</span>退休月現金流撥回</h2>
+  <div class="en">Monthly Payout at Retirement</div>
+
+  <div class="oneline">
+    <div class="lb">一句話</div>
+    <p>退休時把累積的資產，轉成每個月固定領的「第二份薪水」。</p>
+  </div>
+
+  <div class="analogy">
+    <div class="lb">生活比喻</div>
+    <p><span class="emo">🏞️</span>像蓋好一座水庫後開一道閘門——工作時努力蓄水（累積），退休後穩定放水（撥回），細水長流灌溉整個退休生活，而不是把水一次放光。</p>
+  </div>
+
+  <div class="points">
+    <div class="pt"><div class="pn">1</div><div class="ptx"><b>累積 vs 提領是兩個階段</b>：年輕時追求「養大」，退休後追求「穩定領」，目標完全不同。</div></div>
+    <div class="pt"><div class="pn">2</div><div class="ptx"><b>解決長壽風險</b>：退休最怕的不是報酬低，是「活得比錢久」。穩定現金流正是為這個焦慮設計。</div></div>
+    <div class="pt"><div class="pn">3</div><div class="ptx"><b>把資產變薪水</b>：月配息／撥回機制讓資產不必一次領光，每月自動入帳，生活有底氣。</div></div>
+    <div class="pt"><div class="pn">4</div><div class="ptx"><b>確定性優於高報酬</b>：退休生活要的是「這個月一定領得到」，而不是賭一把大的。</div></div>
+  </div>
+
+  <div class="signal">
+    <div class="si">💡</div>
+    <div class="st"><b>配息率 ≠ 投資報酬率。</b>撥回的資金來源可能包含部分本金返還，重點是「穩定現金流」的定位，不是追高報酬。</div>
+  </div>
+
+  <div class="clientnote"></div>
+
+  <div class="teach">
+    <div class="th">業務教學：話術與異議處理</div>
+    <div class="script"><div class="who">切入</div><p>「您想過退休後，錢要『怎麼領』嗎？很多人只想著要存多少，卻沒想過——退休那天，這一大筆錢要怎麼變成每個月的生活費？月現金流撥回，就是幫您把資產，變成一份不用上班就有的薪水。」</p></div>
+    <div class="script"><div class="who">異議：配息率只有4%，感覺不高</div><p>「您說得好，4%換算年化看起來不大。但換個方式想——您放1,000萬在這裡，每個月固定領到一筆現金，不管市場漲跌都穩定入帳。退休最需要的不是報酬率，是『確定性』。這筆月撥回，就是您退休後的薪水。」</p></div>
+    <div class="script"><div class="who">異議：那不就是領自己的本金？</div><p>「這個問題很好，我一定要跟您說清楚：撥回確實可能含部分本金返還，所以我從不把它講成『高報酬』。它的價值在『穩定』——把一整筆資產，變成有節奏、可預期的現金流，讓您退休後不用每個月煩惱賣哪一檔、賣多少。」</p></div>
+    <div class="kohint"><b>KGI 商品連結：</b>類全委（月配息型）帳戶＝退休後「月收入」來源，搭配壽險保障使用。務必揭露「配息來源可能含本金」「配息率≠報酬率」。</div>
+  </div>
+</section>
+
+<!-- ③ 資產配置 -->
+<section class="topic" id="t3">
+  <div class="kicker">Concept 03</div>
+  <h2><span class="no">③</span>資產配置</h2>
+  <div class="en">Asset Allocation</div>
+
+  <div class="oneline">
+    <div class="lb">一句話</div>
+    <p>把錢分散放在不同類型的資產，不押單一，讓組合抗得住風浪。</p>
+  </div>
+
+  <div class="analogy">
+    <div class="lb">生活比喻</div>
+    <p><span class="emo">⚽</span>像一支球隊——攻擊（股票求成長）、防守（債券求穩定）、後援（現金求靈活）各司其職，總不能十一個人全上前鋒。也像出門帶傘又帶防曬，兩手準備才安心。</p>
+  </div>
+
+  <div class="points">
+    <div class="pt"><div class="pn">1</div><div class="ptx"><b>分散不是分心</b>：資產、幣別、產業分開布局，某一項出事時不會全盤皆輸。</div></div>
+    <div class="pt"><div class="pn">2</div><div class="ptx"><b>配置決定長期成敗</b>：研究顯示，長期報酬差異多半來自「配置」，而非選股或擇時。</div></div>
+    <div class="pt"><div class="pn">3</div><div class="ptx"><b>外幣是重要一環</b>：資產若全在台幣，等於把雞蛋放同一個籃子；適度配置美元＝分散、不是增加風險。</div></div>
+    <div class="pt"><div class="pn">4</div><div class="ptx"><b>依人生階段調整</b>：年輕可積極、接近退休轉穩健，配置比例隨目標動態微調。</div></div>
+  </div>
+
+  <div class="signal">
+    <div class="si">💡</div>
+    <div class="st">配置的目的不是追<b>最高報酬</b>，是讓組合<b>抱得久、抗得住</b>。抱得住，才拿得到長期複利。</div>
+  </div>
+
+  <div class="clientnote"></div>
+
+  <div class="teach">
+    <div class="th">業務教學：話術與異議處理</div>
+    <div class="script"><div class="who">切入（FORD／缺口診斷）</div><p>「我幫客戶看資產，習慣先問一句：您現在手邊，大概多少比例是台幣、多少是外幣？多少是能馬上動用的、多少是長期不動的？很多人一算才發現——原來全部押在同一邊。」</p></div>
+    <div class="script"><div class="who">異議：美元保單有匯率風險</div><p>「這個擔心很合理。但匯率是雙向的——台幣升值您有損失，台幣貶值您就受益。長期而言，適度配置外幣其實是『分散風險』而不是增加風險。如果資產全在台幣，反而才是把雞蛋放同一個籃子。」</p></div>
+    <div class="script"><div class="who">異議：配置聽起來很複雜</div><p>「其實原則很簡單：不押單一。我會依您的年齡、目標、和現有資產，幫您把『成長、穩定、靈活』三塊配好比例，之後定期檢視微調就好。複雜的部分交給我，您只要看得懂大方向。」</p></div>
+    <div class="kohint"><b>KGI 商品連結：</b>美元終身壽（紅運富御／美利成臻）＝配置中的「外幣＋穩定＋傳承」一角。搭配類全委（現金流）＋醫療險（保障），組成攻守兼備的組合。</div>
+  </div>
+</section>
+
+<!-- ④ 大小水庫投資法 -->
+<section class="topic" id="t4">
+  <div class="kicker">Concept 04</div>
+  <h2><span class="no">④</span>大小水庫投資法</h2>
+  <div class="en">Big &amp; Small Reservoir Strategy</div>
+
+  <div class="oneline">
+    <div class="lb">一句話</div>
+    <p>把資金分兩池：大水庫長期養大、追成長；小水庫靈活備用、應急需。</p>
+  </div>
+
+  <div class="analogy">
+    <div class="lb">生活比喻</div>
+    <p><span class="emo">💧</span>像家裡有大水塔（長期蓄水、供全家）＋小水桶（隨手取用、應急）。大水塔不輕易動、慢慢養大；小水桶天天用、隨時補。兩者分工，互不干擾。</p>
+  </div>
+
+  <div class="points">
+    <div class="pt"><div class="pn">1</div><div class="ptx"><b>大水庫＝核心長期部位</b>：追求成長與複利，設定好就盡量不動，讓時間發酵。</div></div>
+    <div class="pt"><div class="pn">2</div><div class="ptx"><b>小水庫＝短期靈活資金</b>：預留緊急備用金、生活變動、機會財，隨時取用不影響大局。</div></div>
+    <div class="pt"><div class="pn">3</div><div class="ptx"><b>分池管理＝攻守兼備</b>：長期部位抱得住，短期需求動得了，不會為了臨時用錢被迫賣在低點。</div></div>
+    <div class="pt"><div class="pn">4</div><div class="ptx"><b>核心與衛星進階版</b>：大水庫是核心（穩健打底、佔多數），小水庫像衛星（機動抓機會、佔少數）。</div></div>
+  </div>
+
+  <div class="signal">
+    <div class="si">💡</div>
+    <div class="st">先顧好<b>小水庫</b>（緊急預備金）再談大水庫。有了緩衝墊，才不會在市場低點被迫解約長期部位——這是分池最大的價值。</div>
+  </div>
+
+  <div class="clientnote"></div>
+
+  <div class="teach">
+    <div class="th">業務教學：話術與異議處理</div>
+    <div class="script"><div class="who">切入</div><p>「很多人不敢做長期投資，其實是因為『不敢把錢鎖起來』——怕臨時要用。大小水庫的做法，剛好解決這件事：我們先幫您留一池隨時能動的小水庫，剩下的才放進大水庫慢慢養。這樣您既抱得住、又動得了。」</p></div>
+    <div class="script"><div class="who">異議：把錢放長期，臨時要用怎麼辦</div><p>「這正是為什麼要分兩池。小水庫就是您的緩衝墊——臨時要用錢，先動小水庫，完全不用去動長期的大水庫。有了這道防線，長期部位才真正抱得住，也才拿得到時間的複利。」</p></div>
+    <div class="script"><div class="who">異議：兩池要各放多少</div><p>「原則是：小水庫先備足約6個月到1年的生活支出當緩衝，其餘依您的目標與風險承受度放進大水庫。比例我會依您的狀況幫您抓，之後每年檢視一次微調就好。」</p></div>
+    <div class="kohint"><b>KGI 商品連結：</b>大水庫＝美元增額壽／終身壽（長期複利＋傳承）；小水庫＝高流動性資金＋短年期工具。壽險的解約金設計，正好呼應「大水庫慢慢養」的定位。</div>
+  </div>
+</section>
+
+<div class="foot">
+  誠<b>於心</b> · 毅<b>於行</b> · 傳<b>於世</b> · 承<b>於志</b><br>
+  熊誠毅 ｜ 誠毅傳承 · 財經自學站
+</div>
+
+<div class="disc">
+  <div class="box">
+    <b>重要提醒：</b>本頁內容為財經觀念教育與溝通輔助，非特定商品之要約或投資建議。投資均有風險，過往績效不代表未來表現；月配息／撥回機制之配息來源可能包含本金返還，配息率不等於投資報酬率。實際商品內容、費用、報酬與風險，均以各保險公司正式條款與要保文件為準。投保前請詳閱商品說明書並審慎評估自身財務狀況。
+  </div>
+</div>
+
+<script>
+"use strict";
+function setMode(m){
+  document.body.className = m==='teach' ? 'mode-teach' : 'mode-client';
+  document.getElementById('mClient').classList.toggle('on', m==='client');
+  document.getElementById('mTeach').classList.toggle('on', m==='teach');
+  try{ localStorage.setItem('planMode', m); }catch(e){}
+}
+function go(id){
+  var el=document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+(function(){
+  try{ var saved=localStorage.getItem('planMode'); if(saved) setMode(saved); }catch(e){}
+})();
+</script>
+</body>
+</html>

@@ -58,11 +58,11 @@
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
 
   /* flip card */
-  .card{perspective:1400px;height:260px;cursor:pointer}
-  .flip{position:relative;width:100%;height:100%;transition:transform .55s cubic-bezier(.4,.2,.2,1);transform-style:preserve-3d}
+  .card{perspective:1400px;cursor:pointer}
+  .flip{position:relative;display:grid;transition:transform .55s cubic-bezier(.4,.2,.2,1);transform-style:preserve-3d}
   .card.flipped .flip{transform:rotateY(180deg)}
-  .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
-    border-radius:16px;padding:20px;display:flex;flex-direction:column;overflow:hidden}
+  .face{grid-area:1/1;position:relative;backface-visibility:hidden;-webkit-backface-visibility:hidden;min-height:240px;
+    border-radius:16px;padding:18px;display:flex;flex-direction:column;overflow:hidden}
   /* front */
   .front{background:#fff;border:1px solid var(--gray);box-shadow:var(--shadow)}
   .front .cat{font-size:11px;font-weight:700;color:var(--gold-d);letter-spacing:.5px}
@@ -75,11 +75,13 @@
   .front .flip-hint{position:absolute;right:14px;top:16px;font-size:11px;color:var(--muted);display:flex;align-items:center;gap:4px}
   /* back */
   .back{background:var(--navy);color:#fff;transform:rotateY(180deg);border:1px solid var(--gold)}
-  .back .bterm{font-family:var(--serif);font-weight:700;color:var(--gold);font-size:16px;margin-bottom:8px;flex:none}
-  .back .oneline{font-size:15px;font-weight:700;line-height:1.5;color:#fff;margin-bottom:10px}
+  .back::-webkit-scrollbar{width:4px}
+  .back::-webkit-scrollbar-thumb{background:rgba(201,168,76,.5);border-radius:4px}
+  .back .bterm{font-family:var(--serif);font-weight:700;color:var(--gold);font-size:15px;margin-bottom:6px;flex:none}
+  .back .oneline{font-size:14.5px;font-weight:700;line-height:1.5;color:#fff;margin-bottom:9px}
   .back .rowlab{font-size:10.5px;color:var(--gold);font-weight:700;letter-spacing:1px;margin-top:2px}
-  .back .rowtxt{font-size:12.5px;color:#EDE7DA;line-height:1.55;margin-bottom:8px}
-  .back .signal{margin-top:auto;background:rgba(201,168,76,.14);border-radius:9px;padding:9px 11px;font-size:12px;color:#fff;line-height:1.5}
+  .back .rowtxt{font-size:12px;color:#EDE7DA;line-height:1.5;margin-bottom:7px}
+  .back .signal{margin-top:8px;background:rgba(201,168,76,.14);border-radius:9px;padding:9px 11px;font-size:12px;color:#fff;line-height:1.5}
   .back .signal b{color:var(--gold)}
 
   .count{text-align:center;color:var(--muted);font-size:12.5px;margin:16px 0 4px}
@@ -90,7 +92,7 @@
   footer .bd b{color:var(--orange)}
   footer .motto{color:var(--gold);font-size:11px;letter-spacing:1px;margin-top:6px}
 
-  @media(max-width:520px){.grid{grid-template-columns:1fr}.card{height:250px}}
+  @media(max-width:520px){.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -124,6 +126,7 @@
   <div class="bd">熊誠毅<b>｜誠毅傳承</b></div>
   <div>財經自學站 ｜ 入門觀念卡</div>
   <div class="motto">◈ 用專業守護家族價值・以誠意延續財富生命 ◈</div>
+  <div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(201,168,76,.22)"><a href="disclaimer.html" style="color:var(--gray);font-size:11.5px;text-decoration:none">免責聲明</a></div>
 </footer>
 
 <script>
@@ -287,10 +290,68 @@ var CARDS=[
  one:"債券的「報酬率」——但和價格反向。",
  analogy:"像蹺蹺板：債券價格漲，殖利率就跌；價格跌，殖利率就漲。",
  news:"「殖利率攀升」通常代表債券被賣壓（價格下跌），或市場預期升息。",
- signal:"殖利率急升→借錢成本上升→<b>排擠股市估值</b>，尤其高估值成長股。"}
+ signal:"殖利率急升→借錢成本上升→<b>排擠股市估值</b>，尤其高估值成長股。"},
+
+// 投資與退休
+// 投資與退休（四大觀念）
+{cat:"投資與退休",term:"定期定額",en:"Dollar-Cost Averaging",
+ snip:"每月固定<mark>定期定額</mark>，長期參與市場成長",
+ one:"每個月投入固定金額，不管漲跌照樣買。",
+ analogy:"像每月存一筆錢買同一種水果——貴的時候買得少、便宜的時候買得多，長期下來平均成本被壓平。",
+ news:"看到「定期定額」「平均成本法」，講的就是用紀律取代猜測進場點。",
+ signal:"重點不是買在最低點，而是<b>持續在場</b>；時間拉長，短期波動會被稀釋。"},
+
+{cat:"投資與退休",term:"長期投資",en:"Long-Term Investing",
+ snip:"時間是複利最好的朋友，<mark>長期投資</mark>勝過頻繁進出",
+ one:"錢放得夠久，讓複利替你工作。",
+ analogy:"像種樹——前幾年看不太出來，但十年、二十年後樹蔭遮天。頻繁移植反而長不大。",
+ news:"「複利」「時間價值」就是這個觀念：報酬會再生報酬，越晚開始越吃虧。",
+ signal:"波動是長期投資的<b>過路費</b>，不是路障；能抱得住的人，才拿得到時間的紅利。"},
+
+{cat:"投資與退休",term:"複利效應",en:"Compound Interest",
+ snip:"愛因斯坦口中的「世界第八大奇蹟」——<mark>複利</mark>",
+ one:"利息滾利息，雪球越滾越大。",
+ analogy:"像滾雪球：一開始小小一顆，滾到後面自己就會越滾越快、越滾越大。",
+ news:"「72法則」是估算複利的口訣：72÷報酬率＝資產翻倍所需年數。",
+ signal:"複利的威力全在<b>後段</b>；提早開始比報酬率高低更關鍵。"},
+
+{cat:"投資與退休",term:"月現金流撥回",en:"Monthly Payout",
+ snip:"退休後每月<mark>撥回現金流</mark>，把資產變成穩定收入",
+ one:"退休時，把累積的資產轉成每月固定領的「薪水」。",
+ analogy:"像蓋好一座水庫後開一道閘門——平常蓄水（累積），退休時放水（撥回），穩定灌溉生活。",
+ news:"「月配息」「撥回機制」就是這個概念：資產不用一次領光，而是細水長流。",
+ signal:"退休最怕的不是報酬低，是<b>活得比錢久</b>；穩定現金流解決的正是這個焦慮。"},
+
+{cat:"投資與退休",term:"資產配置",en:"Asset Allocation",
+ snip:"不同資產分散布局，<mark>資產配置</mark>決定長期成敗",
+ one:"把錢分散放在不同類型的資產上，不押單一。",
+ analogy:"像一支球隊——攻擊（股票）、防守（債券）、後援（現金）各司其職，不能全上前鋒。",
+ news:"研究顯示，長期報酬的差異，多半來自「配置」而非「選股」或「擇時」。",
+ signal:"配置的目的不是追最高報酬，是讓組合<b>抗得住風浪</b>、抱得久。"},
+
+{cat:"投資與退休",term:"分散風險",en:"Diversification",
+ snip:"別把雞蛋放同一個籃子——<mark>分散風險</mark>",
+ one:"分散投資，讓某一項出事時不會全盤皆輸。",
+ analogy:"像出門帶傘也帶防曬——不確定天氣時，兩手準備才安心。",
+ news:"「不要把雞蛋放在同一個籃子」講的就是分散：資產、幣別、產業都可以分散。",
+ signal:"分散降低的是<b>單一風險</b>；配得夠開，單一資產暴跌也傷不到根本。"},
+
+{cat:"投資與退休",term:"大水庫 vs 小水庫",en:"Big & Small Reservoir",
+ snip:"<mark>大小水庫</mark>分工——一個養大、一個備用",
+ one:"把資金分兩池：大水庫長期養大，小水庫應急備用。",
+ analogy:"像家裡有大水塔（長期蓄水、供全家）＋小水桶（隨手取用、應急）——各有各的任務。",
+ news:"「大水庫」＝長期核心投資、追求成長；「小水庫」＝短期靈活資金、應付變動。",
+ signal:"分池管理讓你<b>攻守兼備</b>：長期部位抱得住，短期需求動得了，兩邊互不干擾。"},
+
+{cat:"投資與退休",term:"核心與衛星",en:"Core-Satellite",
+ snip:"<mark>核心</mark>穩健打底、<mark>衛星</mark>靈活加值",
+ one:"大部位求穩（核心），小部位求機會（衛星）。",
+ analogy:"像行星系統——核心是恆定的太陽（穩健資產），衛星繞著轉（機動配置），主次分明。",
+ news:"這是大小水庫的進階版：核心佔多數、長期持有；衛星佔少數、機動調整。",
+ signal:"核心負責<b>抱得穩</b>，衛星負責<b>抓機會</b>；比例拿捏，決定組合個性。"}
 ];
 
-var CATS=["全部","利率與央行","物價與通膨","匯率","景氣指標","股市籌碼","債市"];
+var CATS=["全部","利率與央行","物價與通膨","匯率","景氣指標","股市籌碼","債市","投資與退休"];
 var curCat="全部", curSearch="";
 
 function el(t,c,h){var e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e}
