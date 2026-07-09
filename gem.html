@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1B2A4A">
+<title>Gemini Gem 設定 · 財經新聞判讀｜誠毅傳承</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@600;700;900&family=Playfair+Display:ital,wght@0,600;0,800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1B2A4A; --navy-l:#2E4A7A; --gold:#C9A84C; --gold-d:#A07830;
+    --cream:#FAF6EE; --gray:#E8E0D0; --ink:#333; --muted:#8a8577; --white:#fff; --orange:#D4711E;
+    --serif:"Noto Serif TC",serif; --sans:"Noto Sans TC",sans-serif; --disp:"Playfair Display",serif;
+    --shadow:0 8px 26px rgba(27,42,74,.13); --shadow-sm:0 3px 12px rgba(27,42,74,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.7;-webkit-font-smoothing:antialiased}
+  ::selection{background:var(--gold);color:var(--navy)}
+
+  header.top{position:sticky;top:0;z-index:50;background:var(--navy);color:#fff;display:flex;align-items:center;
+    gap:11px;padding:11px 16px;border-bottom:2px solid var(--gold);padding-top:calc(11px + env(safe-area-inset-top))}
+  header.top img{width:32px;height:32px;border-radius:7px;flex:none}
+  header.top .wm{font-family:var(--serif);font-weight:700;font-size:15px}
+  header.top .wm b{color:var(--orange)}
+  header.top .wm span{color:var(--gold);margin:0 3px;font-size:12px}
+
+  .hero{background:linear-gradient(135deg,var(--navy),var(--navy-l));color:#fff;padding:34px 20px 30px;text-align:center;position:relative;overflow:hidden}
+  .hero::after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border:1px solid rgba(201,168,76,.2);border-radius:50%}
+  .hero .inner{max-width:720px;margin:0 auto;position:relative;z-index:1}
+  .hero img.mark{width:60px;height:60px;border-radius:14px;margin:0 auto 14px;display:block;box-shadow:0 6px 18px rgba(0,0,0,.3)}
+  .hero .eyebrow{font-family:var(--disp);font-style:italic;color:var(--gold);letter-spacing:2px;font-size:13px}
+  .hero h1{font-family:var(--serif);font-weight:900;font-size:clamp(24px,5vw,34px);margin-top:4px;line-height:1.25}
+  .hero p{color:var(--cream);font-size:14px;margin-top:10px}
+
+  main{max-width:720px;margin:0 auto;padding:22px 16px 60px}
+
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+  .step{background:#fff;border:1px solid var(--gray);border-radius:13px;padding:16px;box-shadow:var(--shadow-sm)}
+  .step .k{font-family:var(--disp);font-weight:800;color:var(--gold-d);font-size:13px}
+  .step .st{font-family:var(--serif);font-weight:700;color:var(--navy);font-size:15px;margin:3px 0 4px}
+  .step .sd{font-size:12.5px;color:var(--ink);line-height:1.6}
+  .step .sd b{color:var(--gold-d)}
+
+  .promptcard{background:#fff;border:1px solid var(--gray);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
+  .promptcard .pch{background:var(--navy);color:#fff;padding:13px 16px;display:flex;align-items:center;gap:10px}
+  .promptcard .pch .lbl{font-family:var(--serif);font-weight:700;font-size:15px;flex:1}
+  .promptcard .pch .cpbtn{border:1px solid var(--gold);background:var(--gold);color:var(--navy);border-radius:8px;
+    padding:8px 15px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--sans);transition:.15s}
+  .promptcard .pch .cpbtn:hover{background:#fff}
+  .promptcard pre{margin:0;padding:16px;font-family:"Noto Sans TC",monospace;font-size:12.5px;line-height:1.7;
+    color:var(--ink);white-space:pre-wrap;word-break:break-word;max-height:60vh;overflow-y:auto;background:var(--cream)}
+  .promptcard pre::-webkit-scrollbar{width:6px}
+  .promptcard pre::-webkit-scrollbar-thumb{background:rgba(201,168,76,.5);border-radius:6px}
+
+  .note{background:#FFF8E6;border:1px solid #F0E2B8;border-radius:12px;padding:14px 16px;margin-top:20px;font-size:12.5px;color:var(--ink);line-height:1.7}
+  .note b{color:var(--gold-d)}
+  .note ul{margin:6px 0 0;padding-left:18px}
+  .note li{margin-bottom:4px}
+
+  footer{background:var(--navy);color:var(--gray);text-align:center;padding:22px;font-size:12px;border-top:2px solid var(--gold);margin-top:30px}
+  footer .bd{font-family:var(--serif);color:#fff;font-size:14px;margin-bottom:4px}
+  footer .bd b{color:var(--orange)}
+  footer .motto{color:var(--gold);font-size:11px;letter-spacing:1px;margin-top:6px}
+
+  .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(18px);background:var(--navy);color:#fff;
+    padding:11px 22px;border-radius:10px;font-size:13.5px;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:.25s;z-index:100;border:1px solid var(--gold)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  @media(max-width:600px){ .steps{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<header class="top">
+  <img src="data:image/jpeg;base64,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" alt="誠毅傳承">
+  <div class="wm">熊誠毅<span>｜</span><b>誠毅傳承</b></div>
+</header>
+
+<section class="hero">
+  <div class="inner">
+    <img class="mark" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCABQAE0DASIAAhEBAxEB/8QAHAAAAgIDAQEAAAAAAAAAAAAABgcFCAIDBAAB/8QANxAAAQMCBAUCAwUIAwAAAAAAAQIDBAURAAYSIQcTMUFRImEycYEIFCNCUhUWJENygpGiU2Kh/8QAGQEAAgMBAAAAAAAAAAAAAAAAAwQBAgUA/8QAKREAAgIBAgUEAQUAAAAAAAAAAQIAAxEEEiFBUcHRIjFhkRMUcaHh8P/aAAwDAQACEQMRAD8At8Opv4xkk3xh3viJzdmSmZXpBqNTccIUoNsMMp1PSXT0bbT3Uf8AAFySAL4HJkybBJJIAAuT2AwG1bidlCC+YseeuqydfL5dPRzRr/TzCQ2D7asAWa51XrQ15ltJccSsw8rQ5FmwtISUokqHqccUFA6SNPewA1YSv2pm0zqtlyqUJxlmktwhDVDaUNMOQLrcTYGxuCLlJNrAGxti1YDNiQ2VGZaBOdczvq1QeGtZW2dwqRLZaV/garYxXn2sQQp6tcP65DYQCVOtSGHUpHk3UmwxTWLmjN70eMuTnLMKAw2lpksz3EltIFgAAQLWxw5iruaH6O7TXMz1eTAfUHFMSpa3ErUNwSFE7g4uKyTjInFhjOJe3LOf8p195uLAqzbcx5OpuLKSWHVj/qFW1/2k4JrWO+KicDTHpnBKYmtUpvMEmfNEqnU03UtDPwuPJPbdCrhNyCASBfDRylnWZQ0KSzNkV+kx0IVOprjnOqNICgDZKv56UgjUncp6A39OBthWIkqMjMdBve+PY56bOh1OnMVGnSmpUSSgOMvNKulaT0IxvN77YidNUyTGhw35kx9DEaO2p111RslCEi6lH2ABwj59bqFXqzOZVx0O1SopLVEguuBJpsFRsZJSoi61W1KNxpt1ASDg44xPLmR6LlFlWn9uTP4o+IrNluX9idCT7E4AcxPUeqT40uO4+2msKDIKyhaY0RohCktlHQOKISbgKslYNxijsFGT7S6KSeE3QoECZrlNJXHpsmzJdJPOqpbR6Q44fUGrCyQfjsFLuTbCU+1nNlsZto1GdZbjx4lIadbbZToQS44rWQOv5Ep3/Th31qsMUuKubVZNJgtAKjkl/WGUpPoSlIBLroNz6Ol7YQvEuqQOKWd6FTqKlFPWwwuC1MmfHLeJKhzP0oKrpSNyL7+MD0Rey02MOEJqQq1hFPGRXDOdTctU+bnapUs1WPz0wY7NgrQogqUtQ8AAJB9ziF4jNQ49UFWix3YsasxhMjxVH1M6iQUEdrEXHsRjjkt5gyBVpFHzBQVI5m64kwLS25bopCkkBQ9wSMdeWctZr4kVh2bAg8uHHH481YUIkNsbm61XuQO1yTh9aitpsJ4dc8uQixtDVhB7x2fZldcq/DesU+pNtvQINWbLevYt8xu69ChughQCr++2+C6dSqpAe5mXZjFOnVNYLFYdQdUlCVEqZdt+ZViQbfiEBKt7EqrgbnnLuWsvvZZnWiLcnrltVMtqUl1BGkoeSm6rWtYi4FzfzhyqeYqtLeU69CkRpza3lqjyQrllIuh1pSbJIFgNI3TjN1TPTeWx6TG6FWyoDPETq4cZog02qNzqUiWjKdbnKiuJkNFoQqhcetKT8LbpNiL7KI76sOjcG2E45XIeaMpxMtVNl8v1Rl2I46jSiOzJaueYD11r1IVYfrB7HB/wyrT+YMjUyoTFAzkoVHmW/wCdpRbWfqU3+uGEORAMMGCHEOVJY4jPy2C4XKXlZ19jlt61hxx1Q9Ke5OhItheZpqtSnVuEuW44Zio0ZGpSAlSCtOsJIG23OCfp5wfcTIwXxEfacUpIqOVXkM21buMulf5d9tSemFVnt8UqkftZTjYTHpraWXEL1NresY4UhX5k6kagfAwDU1mxCi+5I7Q2ncI4Y8ge8S+faqqoZvqDzcha45eW3HBVcJaSqyAnwNNjYfPqcQDN27utlYdbcC06VW0kG4I8H3xpqTobW0tOw5mw9sTFDpiZ2iW8XOQoqShpogOSCndVr/ClPdViewBPTZO2pB0maN1jR+8bqrW8xcEqDMq6ac5SFOR+XL1JL9SK0kgJ7slGn8T9RG222NeeK1mSB9mSmU99UFmlS47DbE6EpKFyw4Lhnlp+EoAVrV+ayf1Ksrokv+AaMFIQzHSQpltlJDQ1K6rWFqF/SbGxJVt4xhNKZbbFOqLCnVOHXy9IZcaXpAukosCSo2BUkpO3bfCIcDA5RwoYGzGWGJoRGeLyUovrtbT7DB1wYq0pquSoYkOKTJjuKbbv6ea2NaVW6arJWL9SDbARXIzdNRdtSpCHrqakagL26oUkX0rGwIuexBIONuTqmulT4FRRuY7iXbXtexuR9RcfXDdiC6kr1EWRvx2g9JZbLLcyXFC4UKXNkQJ8Wey1Fa1rbUEuoJNyPTZCQd79Lb2w2ODlm52cqWCC3Frq1tgdEhxttR/21H64UdLhPChvJhvkNSqnBjsrbdSjU2oqctdWx9DqDbrv33w2+DpDk/OdUNuXKry0NkDYhtttJ/21D6Yy9OpWtQeniO3kF2I6zDjC29AhUjOUdBW5l+aHZAHUxXLId+ifQr5JOEP9r+qym/3aocqaidFml6pIdS2EFLdwltr5DUo/P5YtfJZZkx3Y8ltDrDyFNutrF0rSoWKT7EE4rFxl4Q1Ov0pNGolXYqNYy0pxVNiqUQ47BWQoMqWdualXQdx1sThhCi2KWOOUCwYoQolZahDceQXY7mpKCAUKG6QTa/yucE8Ux5UqQy3J+6QYKEJW5cLQEIuBZIIuon1bkWKj5GIV556HQlxZjK2JrFS0y2FgodADdkBSTuLK1/W2M4U1iTEmQpUhUaLKSlJeWNRQtJBTcjt2w5qFJXPSBoYBowKNHp8uA7MVWU1igCN93lmO0Wp0G1iHCm51IukdCQO1saarHjOSHVVvMlMojU14OxYJbU4sN9E81QPVSbbm9u1sD+RYj1MqBk0CoplVECxcTfkJST8Kr/Fq6W6/+nEfminUmdUVTW5yKet03kRn72b92idlIPYdsZgUG4jccdcdu+P7fJYVA44/v/vrMyzKw7CaqNGngF1ptDrbvM1BZSPSpHfSU6k27bDtiHixTGb0S167jdtP5fmfOOqt1gyZjjrpcW3oS2zpVYctI0pvtc7C/wAycdUOl1vNUqhULL8NypVaRE0raYFylPMXo1nokBGm5PQWxqUBlQbpn3EFziWT4C5skx+Aprb0pDcSirkQPufKBVLcsksq1ddQCkpH9Iw7eGdDey7kamU2WkCcUKkTbH+e6orcHvYqt9MLDg9w0h0WNRMvSa9Dns0V9c+oxW7/AI1SJGkAnZTbYA99SU++HmQSb4QBRmZlPAmMYYABphcJSVHokX6Xwr67lqNKfezVl1D6vWpXLcQUCK8DdT4SRdW24Tvub79MHlUjVOTzWW3Yn3VxIAQtKwsf3JPnHLT6fWYiVLaehIWsevmKddt4tc4U1NQvwrL7c/EYotNXqUxdcQch0LibQJVPmxaVGzmWw01VkxSstBNlJDih3WAR3Iudu2Kt5s4ZZ6yDJUMw0CV90Qr8Oow0l+Ooe6kg2H9QBHjF9H6JFXUkVNta2ZYcQ4tQJKFFIsToO2opJTq6gHzgCFBz1SKjOlxpbrzkp7WFMuFbaite4KDsAEgC9sW/VXadAjKWHx08yBTXa25W2n5lK01aQ9EWlL7wCUhAKHQVFFzrCSLAKO1za9r/ACx9kVSQ2Ex+cC2rTqbSRYr0+rSixvfwnv8A5xdOVR2qjOiir5Sy7MU6poKekUlvWsuOLFrEXBSE7+Ou+OT7lV6RmafHy3lKk0+K0HeQuHSWwoqQQR67b3HjziG11SjOw/UItFjHG4fcrFkbgtnvPcphbFNcoNIcVYTqoOUV37oQfUs26AC23XFlqYxRstszsqZAojVHqTOgTXo8bS7MCQAopKblKr7gE2tfBKMpViqvU2pVCc83MiruTJXr9IUFpISnYm5IIUQenjBnT6bGhvuyrc6Y8TzZKkjWsE3CSfA2A+Qx1tmo1S7ANi/yR5lEWqg7j6j38SByzQ6ZT6m3NmKYbqy2yoMB4FKdglS7WHrN9/F7DBUTbvbAy9lxx2vGrGDSFPhQcS6pK9RWNgSL2va2+Ccb998EoQICoGIO1txyTmf/2Q==" alt="誠毅傳承">
+    <div class="eyebrow">GOOGLE GEMINI · GEM SETUP</div>
+    <h1>財經新聞判讀 Gem</h1>
+    <p>把三層拆解法裝進你的 Gemini。設定一次，之後貼新聞或拍照就自動判讀。</p>
+  </div>
+</section>
+
+<main>
+  <div class="steps">
+    <div class="step">
+      <div class="k">STEP 1</div>
+      <div class="st">新增 Gem</div>
+      <div class="sd">Gemini →「Gem 管理工具 / Explore Gems」→ <b>新增 Gem</b>。名稱填「財經新聞判讀」。</div>
+    </div>
+    <div class="step">
+      <div class="k">STEP 2</div>
+      <div class="st">上傳 Logo</div>
+      <div class="sd">在 Gem 的<b>圖示</b>欄，上傳你的熊 Logo（誠毅傳承），Gem 就有品牌識別。</div>
+    </div>
+    <div class="step">
+      <div class="k">STEP 3</div>
+      <div class="st">貼提示詞</div>
+      <div class="sd">按下方<b>複製</b>，貼進 Gem 的「操作說明 / Instructions」欄，儲存即可。</div>
+    </div>
+  </div>
+
+  <div class="promptcard">
+    <div class="pch">
+      <span class="lbl">📋 Gem 提示詞（點右側複製）</span>
+      <button class="cpbtn" onclick="copyPrompt()">複製</button>
+    </div>
+    <pre id="prompt">財經新聞判讀專案（誠毅傳承）
+
+## 角色
+你是台灣資深財經分析師，服務對象是保險顧問「熊誠毅｜誠毅傳承」。每當使用者貼上文字或上傳新聞照片，就用「三層拆解法」判讀這則財經新聞，並轉成保險顧問能理解、能對客戶開口說的內容。全程使用繁體中文、台灣財經慣用語。
+
+## 觸發方式
+- 貼上新聞文字 → 直接判讀
+- 上傳新聞照片／截圖 → 先讀圖辨識內容，再判讀
+- 一次給多則 → 每則各自判讀，依重要性排序
+- 只說「判讀」而沒給內容 → 請對方提供新聞
+
+## 輸出格式（固定四區塊）
+
+📰 新聞標題（濃縮成一句）
+
+① 事實 vs 解讀
+- 客觀事實（已發生、有數字）：條列 3–5 點
+- 專家推測／解讀（揣測、預期、可能）：條列 2–4 點
+
+② 因果鏈
+- 從最根本原因（通常是利率差／政策差／通膨差）一路推到結果
+- 條列 4–6 步，用「→」的邏輯串起來
+
+③ 三大市場連動
+- 依新聞內容，選最相關的三個市場（匯率／股市／債市／日圓／美股／原物料／籌碼等）
+- 每個市場寫兩行：判斷邏輯（看什麼）＋ 判讀（你的結論）
+
+💬 給客戶的一句話
+- 一句可對客戶說的話，軟性、不推銷、不逼單、不保證報酬
+
+## 規則與合規（務必遵守）
+- 事實與推測一定要分開，只根據事實下判斷
+- 不預測點位、不保證任何投資報酬
+- 談匯率、市場走勢時，強調「雙向」與「分散」，不做單向斷言
+- 提到月配息型商品，要提醒「配息來源可能包含本金返還」
+- 任何商品數字以正式建議書與保單條款為準
+- 口吻是「幫客戶看懂、做財務健診」的顧問，不是急著成交的業務
+
+---
+
+## 判讀範例（請比照這個深度與格式）
+
+【輸入】台股7/1收47,018點漲893點（1.94%），成交量1.36兆。台積電漲95元收2,505元歷史次高。外資買超323.76億終止連六賣，投信連七買。台指期淨空單增至84,168口創高。新台幣收31.874元近三月新低。
+
+【你應該這樣判讀】
+
+📰 台股7月開門紅　帶量重返47K
+
+① 事實 vs 解讀
+- 客觀事實：
+  - 台股7/1收47,018點，漲893點（1.94%），成交量放大至1.36兆
+  - 台積電漲95元收2,505元，歷史次高
+  - 外資買超323.76億，終止連六賣；投信連七買
+  - 台指期淨空單增至84,168口，創新高
+  - 新台幣收31.874元，近三個月新低
+- 專家推測／解讀：
+  - 法人看好台積電領頭，但買盤「抓大放小」集中電子
+  - 部分分析認為帶量走揚有利挑戰歷史高48,218點
+
+② 因果鏈
+1. 美伊系統性風險降溫 ＋ 台積電法說行情提前發酵
+2. → 外資終止連六賣、轉買超323.76億
+3. → 台積電領頭帶量重返47K、回補空方缺口
+4. → 電子成交比重逾8成，資金高度集中AI／半導體
+5. → 須留意漲多股獲利了結賣壓
+6. → 後市能否延續量能，挑戰歷史高48,218點
+
+③ 三大市場連動
+- 股市｜判斷邏輯：量能、外資動向、類股輪動；判讀：帶量突破偏多，但資金過度集中台積電，龍頭一休息波動就放大
+- 匯率｜判斷邏輯：外資匯出入、除權息旺季；判讀：7月除權息外資領股利匯出，新台幣短線偏貶
+- 籌碼｜判斷邏輯：台指期淨空單、三大法人買賣超；判讀：淨空單創高＝避險升溫，追高宜避免過度追價
+
+💬 給客戶的一句話
+「行情熱的時候，正是把一部分獲利『鎖成確定性』的好時機。要不要一起看看，您的資產裡有多少是『看天吃飯』、多少是『不受行情影響』的？」
+
+---
+
+之後每貼一則新聞，就照上面這個深度、格式、口吻判讀。</pre>
+  </div>
+
+  <div class="note">
+    <b>設定後怎麼用：</b>進入這個 Gem，在對話框<b>貼新聞文字</b>或<b>上傳新聞照片</b>，打一句「判讀」送出，就會依三層拆解法產出判讀 ＋ 給客戶的一句話。
+    <ul>
+      <li>Gem 可上傳知識檔：把常用產品資料或「觀念小卡」內容放進去，判讀會更貼合。</li>
+      <li>判讀 3–5 則後，把常漏看的點補進 Instructions，越用越準。</li>
+      <li>想要台股專用／美股專用，可另建 Gem，把第三層市場預設換掉即可。</li>
+    </ul>
+  </div>
+</main>
+
+<footer>
+  <div class="bd">熊誠毅<b>｜誠毅傳承</b></div>
+  <div>財經自學站 ｜ Gemini Gem 設定卡</div>
+  <div class="motto">◈ 用專業守護家族價值・以誠意延續財富生命 ◈</div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+function copyPrompt(){
+  var txt=document.getElementById("prompt").innerText;
+  function done(){toast("已複製，貼進 Gem 的操作說明欄")}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,function(){fb(txt);done()})}
+  else{fb(txt);done()}
+}
+function fb(t){var ta=document.createElement("textarea");ta.value=t;ta.style.position="fixed";ta.style.opacity="0";
+  document.body.appendChild(ta);ta.select();try{document.execCommand("copy")}catch(e){}document.body.removeChild(ta)}
+function toast(m){var t=document.getElementById("toast");t.textContent=m;t.classList.add("show");setTimeout(function(){t.classList.remove("show")},2200)}
+</script>
+</body>
+</html>

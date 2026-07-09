@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1B2A4A">
+<title>AI 自動判讀（個人版）｜誠毅傳承</title>
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@600;700;900&family=Playfair+Display:ital,wght@0,600;0,800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1B2A4A; --navy-l:#2E4A7A; --gold:#C9A84C; --gold-d:#A07830;
+    --cream:#FAF6EE; --gray:#E8E0D0; --ink:#333; --muted:#8a8577; --white:#fff; --orange:#D4711E;
+    --serif:"Noto Serif TC",serif; --sans:"Noto Sans TC",sans-serif; --disp:"Playfair Display",serif;
+    --shadow:0 8px 26px rgba(27,42,74,.13); --shadow-sm:0 3px 12px rgba(27,42,74,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.7;-webkit-font-smoothing:antialiased}
+  ::selection{background:var(--gold);color:var(--navy)}
+  a{color:inherit;text-decoration:none}
+
+  header.top{position:sticky;top:0;z-index:50;background:var(--navy);color:#fff;display:flex;align-items:center;
+    gap:10px;padding:11px 14px;border-bottom:2px solid var(--gold);padding-top:calc(11px + env(safe-area-inset-top))}
+  header.top a.home{color:var(--gold);font-size:13px;flex:none}
+  header.top .wm{font-family:var(--serif);font-weight:700;font-size:14px;flex:1;text-align:center}
+  header.top .wm b{color:var(--orange)}
+  header.top .setbtn{border:1px solid rgba(201,168,76,.5);background:rgba(255,255,255,.06);color:var(--gold);
+    border-radius:8px;padding:6px 12px;font-size:12.5px;cursor:pointer;flex:none;font-family:var(--sans)}
+
+  .hero{background:linear-gradient(135deg,var(--navy),var(--navy-l));color:#fff;padding:24px 18px 22px;position:relative;overflow:hidden}
+  .hero::after{content:"";position:absolute;right:-50px;top:-50px;width:180px;height:180px;border:1px solid rgba(201,168,76,.2);border-radius:50%}
+  .hero .wrap{max-width:640px;margin:0 auto;position:relative;z-index:1}
+  .hero .eyebrow{font-family:var(--disp);font-style:italic;color:var(--gold);letter-spacing:2px;font-size:12px}
+  .hero h1{font-family:var(--serif);font-weight:900;font-size:26px;margin-top:2px}
+  .hero p{color:var(--cream);font-size:13px;margin-top:6px}
+  .hero .personal{display:inline-block;margin-top:10px;background:rgba(201,168,76,.16);border:1px solid rgba(201,168,76,.4);
+    color:var(--gold);border-radius:999px;padding:4px 12px;font-size:11.5px}
+
+  main{max-width:640px;margin:0 auto;padding:16px 14px 60px}
+
+  .keywarn{background:#FFF8E6;border:1px solid #F0E2B8;border-radius:12px;padding:14px 16px;margin-bottom:16px;display:none}
+  .keywarn.show{display:block}
+  .keywarn b{color:var(--gold-d)}
+  .keywarn p{font-size:13px;color:var(--ink);margin-top:4px;line-height:1.6}
+  .keywarn button{margin-top:10px;border:none;background:var(--navy);color:#fff;border-radius:8px;padding:9px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--sans)}
+
+  .inputcard{background:#fff;border:1px solid var(--gray);border-radius:14px;padding:16px;box-shadow:var(--shadow-sm)}
+  .inputcard .lbl{font-family:var(--serif);font-weight:700;color:var(--navy);font-size:15px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+  .inputcard .lbl::before{content:"";width:4px;height:16px;background:var(--gold);border-radius:2px}
+  .inputcard textarea{width:100%;border:1px solid var(--gray);border-radius:10px;padding:12px;font-family:var(--sans);
+    font-size:14px;line-height:1.7;resize:vertical;min-height:150px;outline:none;background:var(--cream);color:var(--ink)}
+  .inputcard textarea:focus{border-color:var(--gold)}
+  .uploadbar{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  .ubtn{border:1px solid var(--gray);background:var(--cream);color:var(--navy);border-radius:9px;padding:9px 14px;
+    font-size:13px;cursor:pointer;font-family:var(--sans);display:inline-flex;align-items:center;gap:7px}
+  .ubtn:hover{border-color:var(--gold)}
+  .uinfo{font-size:11.5px;color:var(--muted)}
+  .thumbwrap{margin-top:12px;display:none}
+  .thumbwrap.show{display:block}
+  .thumbwrap img{max-width:100%;max-height:260px;border-radius:10px;border:1px solid var(--gray)}
+  .thumbwrap .rm{margin-top:6px;font-size:12px;color:var(--orange);cursor:pointer;background:none;border:none}
+
+  .gobtn{width:100%;margin-top:14px;border:none;border-radius:11px;padding:15px;font-family:var(--sans);font-weight:700;
+    font-size:16px;cursor:pointer;background:var(--gold);color:var(--navy);transition:.15s;display:flex;align-items:center;justify-content:center;gap:9px}
+  .gobtn:hover{background:var(--gold-d);color:#fff}
+  .gobtn:disabled{opacity:.5;cursor:not-allowed}
+
+  .loading{display:none;text-align:center;padding:30px 20px}
+  .loading.show{display:block}
+  .spinner{width:40px;height:40px;border:3px solid var(--gray);border-top-color:var(--gold);border-radius:50%;
+    margin:0 auto 14px;animation:spin 1s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .loading p{color:var(--navy-l);font-size:14px}
+  .loading .sub{color:var(--muted);font-size:12px;margin-top:4px}
+
+  .err{display:none;background:#FDECEA;border:1px solid #F5C6C0;border-left:4px solid #C0392B;border-radius:10px;padding:14px 16px;margin-top:16px}
+  .err.show{display:block}
+  .err b{color:#B0413A;font-size:14px}
+  .err p{font-size:13px;color:var(--ink);margin-top:5px;line-height:1.6}
+
+  /* 判讀結果 */
+  .result{display:none;margin-top:18px}
+  .result.show{display:block;animation:rise .4s ease}
+  @keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  .rtitle{font-family:var(--serif);font-weight:900;color:var(--navy);font-size:20px;line-height:1.35;margin-bottom:4px}
+  .rmeta{font-size:11.5px;color:var(--gold-d);font-family:var(--disp);letter-spacing:1px;margin-bottom:14px}
+
+  .block{background:#fff;border:1px solid var(--gray);border-radius:13px;padding:16px;margin-bottom:12px;box-shadow:var(--shadow-sm)}
+  .block .bh{font-family:var(--serif);font-weight:700;color:var(--navy);font-size:16px;display:flex;align-items:center;gap:8px;margin-bottom:10px}
+  .block .bh .n{font-family:var(--disp);font-weight:800;color:var(--gold);font-size:19px}
+  .subcard{border-radius:10px;overflow:hidden;border:1px solid var(--gray);margin-bottom:10px}
+  .subcard .h{padding:8px 12px;font-size:13.5px;font-weight:700;color:#fff}
+  .subcard.fact .h{background:var(--navy)} .subcard.view .h{background:var(--orange)}
+  .subcard ul{list-style:none;padding:10px 12px;background:var(--cream)}
+  .subcard li{font-size:13.5px;line-height:1.6;padding-left:15px;position:relative;margin-bottom:7px;color:var(--ink)}
+  .subcard li:last-child{margin-bottom:0}
+  .subcard li::before{content:"▸";position:absolute;left:0;color:var(--gold-d)}
+  .chain .step{display:flex;gap:10px;align-items:flex-start;margin-bottom:4px}
+  .chain .num{flex:none;width:28px;height:28px;border-radius:50%;background:var(--navy);color:#fff;font-family:var(--disp);
+    font-weight:800;font-size:13px;display:grid;place-items:center;margin-top:2px}
+  .chain .step:first-child .num{background:var(--orange)}
+  .chain .txt{flex:1;background:var(--cream);border:1px solid var(--gray);border-radius:9px;padding:9px 11px;font-size:13.5px;line-height:1.5}
+  .chain .arw{color:var(--gold);font-size:12px;margin:1px 0 1px 13px}
+  .mkt{border:1px solid var(--gray);border-radius:11px;overflow:hidden;margin-bottom:10px}
+  .mkt .mh{background:var(--navy);color:#fff;padding:8px 12px;display:flex;align-items:center;gap:8px}
+  .mkt .mi{width:26px;height:26px;border-radius:50%;background:rgba(201,168,76,.9);color:var(--navy);display:grid;place-items:center;font-weight:800;font-size:13px}
+  .mkt .mn{font-family:var(--serif);font-weight:700;font-size:15px}
+  .mkt .mb{padding:10px 12px;background:var(--cream)}
+  .mkt .lb{font-size:11px;font-weight:700;color:var(--gold-d)}
+  .mkt .vl{font-size:13px;line-height:1.5;margin:2px 0 8px;color:var(--ink)}
+  .mkt .vl:last-child{margin-bottom:0}
+  .cline{background:linear-gradient(135deg,var(--navy),var(--navy-l));color:#fff;border-radius:12px;padding:16px;margin-bottom:12px}
+  .cline .cl{font-size:11px;color:var(--gold);letter-spacing:1px;font-weight:700;margin-bottom:5px}
+  .cline .ct{font-family:var(--serif);font-size:16px;line-height:1.7}
+  .rbtns{display:flex;gap:9px;flex-wrap:wrap}
+  .rbtn{flex:1;min-width:130px;border:1px solid var(--navy);background:#fff;color:var(--navy);border-radius:9px;padding:11px;
+    font-size:13.5px;font-weight:700;cursor:pointer;font-family:var(--sans)}
+  .rbtn:hover{background:var(--navy);color:#fff}
+  .disclaimer{font-size:11px;color:var(--muted);margin-top:14px;line-height:1.6;text-align:center}
+
+  /* 設定抽屜 */
+  .setwrap{display:none;position:fixed;inset:0;z-index:100;background:rgba(10,16,30,.5)}
+  .setwrap.show{display:block}
+  .setpanel{position:absolute;right:0;top:0;bottom:0;width:min(440px,92vw);background:var(--cream);overflow-y:auto;
+    box-shadow:-8px 0 30px rgba(0,0,0,.3);padding:18px 16px 40px}
+  .setpanel h2{font-family:var(--serif);color:var(--navy);font-size:20px;display:flex;align-items:center;justify-content:space-between}
+  .setpanel h2 .x{background:none;border:none;font-size:24px;color:var(--muted);cursor:pointer}
+  .setpanel .fld{margin-top:16px}
+  .setpanel label{font-size:12.5px;font-weight:700;color:var(--navy);display:block;margin-bottom:5px}
+  .setpanel input,.setpanel select{width:100%;border:1px solid var(--gray);border-radius:9px;padding:11px;font-family:var(--sans);font-size:13.5px;background:#fff;color:var(--ink);outline:none}
+  .setpanel input:focus{border-color:var(--gold)}
+  .setpanel .hint{font-size:11.5px;color:var(--muted);margin-top:6px;line-height:1.6}
+  .setpanel .hint a{color:var(--gold-d);text-decoration:underline}
+  .privacy{background:#FFF8E6;border:1px solid #F0E2B8;border-radius:10px;padding:12px;margin-top:16px;font-size:12px;color:var(--ink);line-height:1.7}
+  .privacy b{color:var(--gold-d)}
+  .setbtns{display:flex;gap:9px;margin-top:18px}
+  .setbtns button{flex:1;border:none;border-radius:9px;padding:12px;font-weight:700;font-size:13.5px;cursor:pointer;font-family:var(--sans)}
+  .setbtns .save{background:var(--gold);color:var(--navy)}
+  .setbtns .clear{background:transparent;color:#B0413A;border:1px solid #E0A9A2}
+
+  .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(18px);background:var(--navy);color:#fff;
+    padding:11px 20px;border-radius:10px;font-size:13.5px;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:.25s;z-index:200;border:1px solid var(--gold)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="home" href="index.html">← 首頁</a>
+  <div class="wm">熊誠毅<b>｜誠毅傳承</b></div>
+  <button class="setbtn" onclick="openSet()">⚙ 設定</button>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">AI NEWS DECODER</div>
+    <h1>AI 自動判讀</h1>
+    <p>貼上新聞或拍照上傳，AI 依三層拆解法自動生成判讀。</p>
+    <span class="personal">🔒 個人專用 · 自帶金鑰</span>
+  </div>
+</section>
+
+<main>
+  <div class="keywarn" id="keywarn">
+    <b>⚙ 尚未設定 API 金鑰</b>
+    <p>這個工具用你自己的 Anthropic API 金鑰在本機直接呼叫 Claude。金鑰只存在你這台裝置，不會外流。</p>
+    <button onclick="openSet()">前往設定金鑰</button>
+  </div>
+
+  <div class="inputcard">
+    <div class="lbl">輸入新聞</div>
+    <textarea id="news" placeholder="貼上財經新聞的標題與內容…&#10;&#10;或用下方按鈕拍照／上傳新聞照片，AI 會直接讀圖判讀。"></textarea>
+    <div class="uploadbar">
+      <button class="ubtn" onclick="document.getElementById('photo').click()">📷 拍照／上傳新聞照片</button>
+      <input type="file" id="photo" accept="image/*" capture="environment" style="display:none">
+      <span class="uinfo">支援貼文字或上傳照片（擇一或並用）</span>
+    </div>
+    <div class="thumbwrap" id="thumbwrap">
+      <img id="thumb" alt="新聞照片">
+      <div><button class="rm" onclick="clearPhoto()">✕ 移除照片</button></div>
+    </div>
+    <button class="gobtn" id="goBtn" onclick="runAI()">✨ AI 判讀</button>
+  </div>
+
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <p>Claude 正在拆解這則新聞…</p>
+    <div class="sub">分析事實、因果鏈與三大市場</div>
+  </div>
+
+  <div class="err" id="err"><b>判讀失敗</b><p id="errMsg"></p></div>
+
+  <div class="result" id="result">
+    <div class="rtitle" id="rTitle"></div>
+    <div class="rmeta">AI 三層判讀 · Claude</div>
+    <div id="rBody"></div>
+    <div class="rbtns">
+      <button class="rbtn" onclick="copyLine()">複製 LINE 文字</button>
+      <button class="rbtn" onclick="copyToDecoder()">帶入手動判讀工具</button>
+    </div>
+    <div class="disclaimer">AI 判讀僅供教育與思考參考，可能有誤，請自行查證；不預測點位、不保證報酬。</div>
+  </div>
+</main>
+
+<!-- 設定抽屜 -->
+<div class="setwrap" id="setwrap" onclick="if(event.target===this)closeSet()">
+  <div class="setpanel">
+    <h2>設定 <button class="x" onclick="closeSet()">×</button></h2>
+    <div class="fld">
+      <label>Anthropic API 金鑰</label>
+      <input type="password" id="apiKey" placeholder="sk-ant-...">
+      <div class="hint">在 <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a> 取得。金鑰只存在本機瀏覽器。</div>
+    </div>
+    <div class="fld">
+      <label>模型</label>
+      <select id="model">
+        <option value="claude-sonnet-5">Claude Sonnet 5（推薦·平衡）</option>
+        <option value="claude-opus-4-8">Claude Opus 4.8（最強·較貴）</option>
+        <option value="claude-haiku-4-5-20251001">Claude Haiku 4.5（最快·最省）</option>
+      </select>
+    </div>
+    <div class="privacy">
+      <b>🔒 隱私說明：</b>你的 API 金鑰只儲存在這台裝置的瀏覽器（localStorage），呼叫時直接送到 Anthropic，不經過任何第三方伺服器，我們也看不到。清除瀏覽器資料即會刪除。
+    </div>
+    <div class="setbtns">
+      <button class="save" onclick="saveSet()">儲存</button>
+      <button class="clear" onclick="clearKey()">清除金鑰</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+var mem={};
+var store={get:function(k){try{return localStorage.getItem(k)}catch(e){return mem[k]||null}},
+  set:function(k,v){try{localStorage.setItem(k,v)}catch(e){mem[k]=v}},
+  del:function(k){try{localStorage.removeItem(k)}catch(e){delete mem[k]}}};
+var KKEY="cyc_anthropic_key", MKEY="cyc_anthropic_model";
+var photoData=null, photoMime=null, lastResult=null;
+
+var MICON={"匯率":"¥","日圓":"¥","美元":"$","債市":"$","日債":"$","美債":"$","公債":"$","股市":"▲","日股":"▲","美股":"▲","台股":"▲","籌碼":"◆","原物料":"◆","黃金":"◆"};
+function icon(n){for(var k in MICON){if((n||"").indexOf(k)>=0)return MICON[k]}return "◈"}
+function esc(s){return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+function el(t,c,h){var e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e}
+function toast(m){var t=document.getElementById("toast");t.textContent=m;t.classList.add("show");setTimeout(function(){t.classList.remove("show")},2000)}
+
+// ── 設定 ──
+function openSet(){
+  document.getElementById("apiKey").value=store.get(KKEY)||"";
+  document.getElementById("model").value=store.get(MKEY)||"claude-sonnet-5";
+  document.getElementById("setwrap").classList.add("show");
+}
+function closeSet(){document.getElementById("setwrap").classList.remove("show")}
+function saveSet(){
+  var k=document.getElementById("apiKey").value.trim();
+  var m=document.getElementById("model").value;
+  if(k)store.set(KKEY,k); store.set(MKEY,m);
+  closeSet();checkKey();toast("已儲存");
+}
+function clearKey(){store.del(KKEY);document.getElementById("apiKey").value="";checkKey();toast("已清除金鑰")}
+function checkKey(){
+  document.getElementById("keywarn").classList.toggle("show",!store.get(KKEY));
+}
+
+// ── 照片 ──
+document.getElementById("photo").onchange=function(e){
+  var f=e.target.files[0];if(!f)return;
+  var r=new FileReader();
+  r.onload=function(){
+    photoData=r.result.split(",")[1]; photoMime=f.type||"image/jpeg";
+    document.getElementById("thumb").src=r.result;
+    document.getElementById("thumbwrap").classList.add("show");
+  };
+  r.readAsDataURL(f); e.target.value="";
+};
+function clearPhoto(){photoData=null;photoMime=null;document.getElementById("thumbwrap").classList.remove("show")}
+
+// ── 呼叫 Claude ──
+var SYS="你是台灣資深財經分析師，服務對象是保險顧問。請用『三層拆解法』分析使用者提供的財經新聞，只輸出 JSON，不要任何說明文字、不要 markdown 反引號。\n\nJSON 格式（鍵名固定）：\n{\n \"title\": \"新聞標題（濃縮，繁中）\",\n \"facts\": [\"客觀事實，已發生且多有數字\", \"...共3-5項\"],\n \"views\": [\"專家推測或市場解讀\", \"...共2-4項\"],\n \"chain\": [\"因果鏈第1步：最根本原因\", \"往下每步為前一步導致的結果\", \"...共4-6步\"],\n \"markets\": [{\"n\":\"市場名(匯率/股市/債市/日圓/美股/原物料等，依新聞選最相關3個)\",\"logic\":\"這市場的判斷邏輯\",\"judge\":\"你的判讀結論\"}],\n \"clientLine\": \"一句可對客戶說的話，軟性、不推銷、不保證報酬\"\n}\n\n規則：facts 只放已發生事實；views 放推測/預期；chain 從根因推到結果；用繁體中文、台灣財經慣用語；不預測點位、不保證報酬；務必只輸出合法 JSON。";
+
+function runAI(){
+  var key=store.get(KKEY);
+  if(!key){openSet();return;}
+  var text=document.getElementById("news").value.trim();
+  if(!text && !photoData){toast("請貼上新聞或上傳照片");return;}
+
+  setLoading(true);
+  document.getElementById("err").classList.remove("show");
+  document.getElementById("result").classList.remove("show");
+
+  var content=[];
+  if(photoData){ content.push({type:"image",source:{type:"base64",media_type:photoMime,data:photoData}}); }
+  content.push({type:"text",text:(text? ("新聞內容：\n"+text) : "請判讀這張新聞照片的內容。")});
+
+  var model=store.get(MKEY)||"claude-sonnet-5";
+  fetch("https://api.anthropic.com/v1/messages",{
+    method:"POST",
+    headers:{
+      "x-api-key":key,
+      "anthropic-version":"2023-06-01",
+      "content-type":"application/json",
+      "anthropic-dangerous-direct-browser-access":"true"
+    },
+    body:JSON.stringify({
+      model:model, max_tokens:2000, system:SYS,
+      messages:[{role:"user",content:content}]
+    })
+  }).then(function(r){
+    return r.json().then(function(j){return {ok:r.ok,status:r.status,body:j}});
+  }).then(function(res){
+    setLoading(false);
+    if(!res.ok){
+      var msg=(res.body&&res.body.error&&res.body.error.message)||("HTTP "+res.status);
+      if(res.status===401)msg="金鑰無效或未授權，請到設定確認 API 金鑰。";
+      if(res.status===429)msg="呼叫太頻繁或額度不足，請稍後再試。";
+      showErr(msg); return;
+    }
+    var txt=""; (res.body.content||[]).forEach(function(b){if(b.type==="text")txt+=b.text;});
+    var data=parseJSON(txt);
+    if(!data){showErr("AI 回傳格式無法解析，請再試一次或換模型。");return;}
+    lastResult=data; renderResult(data);
+  }).catch(function(e){
+    setLoading(false);
+    showErr("連線失敗："+(e.message||e)+"（請檢查網路，或金鑰／CORS 設定）");
+  });
+}
+function parseJSON(t){
+  if(!t)return null;
+  t=t.replace(/```json/gi,"").replace(/```/g,"").trim();
+  var a=t.indexOf("{"), b=t.lastIndexOf("}");
+  if(a>=0&&b>a)t=t.slice(a,b+1);
+  try{return JSON.parse(t)}catch(e){return null}
+}
+function setLoading(on){document.getElementById("loading").classList.toggle("show",on);document.getElementById("goBtn").disabled=on;}
+function showErr(m){document.getElementById("errMsg").textContent=m;document.getElementById("err").classList.add("show");}
+
+// ── 渲染結果 ──
+function renderResult(d){
+  document.getElementById("rTitle").textContent=d.title||"新聞判讀";
+  var h="";
+  if(d.facts&&d.facts.length||d.views&&d.views.length){
+    h+='<div class="block"><div class="bh"><span class="n">①</span>事實 vs 解讀</div>';
+    if(d.facts&&d.facts.length)h+='<div class="subcard fact"><div class="h">客觀事實</div><ul>'+d.facts.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul></div>';
+    if(d.views&&d.views.length)h+='<div class="subcard view"><div class="h">專家推測／解讀</div><ul>'+d.views.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul></div>';
+    h+='</div>';
+  }
+  if(d.chain&&d.chain.length){
+    h+='<div class="block chain"><div class="bh"><span class="n">②</span>因果鏈</div>';
+    d.chain.forEach(function(c,i){h+='<div class="step"><div class="num">'+(i+1)+'</div><div class="txt">'+esc(c)+'</div></div>';if(i<d.chain.length-1)h+='<div class="arw">▾</div>';});
+    h+='</div>';
+  }
+  if(d.markets&&d.markets.length){
+    h+='<div class="block"><div class="bh"><span class="n">③</span>三大市場連動</div>';
+    d.markets.forEach(function(m){
+      h+='<div class="mkt"><div class="mh"><div class="mi">'+icon(m.n)+'</div><div class="mn">'+esc(m.n)+'</div></div>'+
+        '<div class="mb"><div class="lb">判斷邏輯</div><div class="vl">'+esc(m.logic)+'</div>'+
+        '<div class="lb">判讀</div><div class="vl">'+esc(m.judge)+'</div></div></div>';
+    });
+    h+='</div>';
+  }
+  if(d.clientLine){
+    h+='<div class="cline"><div class="cl">給客戶的一句話</div><div class="ct">'+esc(d.clientLine)+'</div></div>';
+  }
+  document.getElementById("rBody").innerHTML=h;
+  document.getElementById("result").classList.add("show");
+  window.scrollTo({top:document.getElementById("result").offsetTop-40,behavior:"smooth"});
+}
+
+// ── 輸出 ──
+function copyLine(){
+  var d=lastResult;if(!d)return;
+  var L=[];L.push("【誠毅傳承·AI判讀】");L.push(d.title||"");L.push("");
+  if(d.facts&&d.facts.length){L.push("■ 關鍵事實");d.facts.forEach(function(x){L.push("・"+x)});L.push("")}
+  if(d.chain&&d.chain.length){L.push("■ 因果鏈");L.push(d.chain.join(" → "));L.push("")}
+  if(d.markets&&d.markets.length){L.push("■ 三大市場");d.markets.forEach(function(m){L.push("・"+m.n+"："+m.judge)});L.push("")}
+  if(d.clientLine){L.push("💬 "+d.clientLine);L.push("")}
+  L.push("— 熊誠毅｜誠毅傳承");
+  var txt=L.join("\n");
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(function(){toast("已複製")},function(){fb(txt)});
+  else fb(txt);
+}
+function fb(txt){var ta=document.createElement("textarea");ta.value=txt;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");toast("已複製")}catch(e){}document.body.removeChild(ta)}
+
+function copyToDecoder(){
+  if(!lastResult)return;
+  try{ store.set("cyc_news_decoder_v1", JSON.stringify({
+    src:"", title:lastResult.title||"", body:document.getElementById("news").value||"",
+    facts:(lastResult.facts||[""]).slice(), views:(lastResult.views||[""]).slice(),
+    chain:(lastResult.chain||["",""]).slice(),
+    mkts:(lastResult.markets||[]).map(function(m){return {n:m.n||"",logic:m.logic||"",judge:m.judge||""}}),
+    checks:[false,false,false,false,false]
+  })); toast("已帶入，開啟手動判讀工具"); setTimeout(function(){location.href="decode.html"},700);
+  }catch(e){toast("帶入失敗")}
+}
+
+checkKey();
+</script>
+</body>
+</html>
